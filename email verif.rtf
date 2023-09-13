@@ -1,0 +1,54 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 const nodemailer = require('nodemailer');\
+\
+async function sendVerificationEmail(email, verificationToken) \{\
+  // Create a transporter object to send emails\
+  const transporter = nodemailer.createTransport(\{\
+    host: 'smtp.example.com', // Replace with your SMTP host\
+    port: 587, // Replace with your SMTP port\
+    secure: false, // If your SMTP port is 465, set this to true\
+    auth: \{\
+      user: 'your-email@example.com', // Replace with your SMTP email\
+      pass: 'your-email-password', // Replace with your SMTP password\
+    \},\
+  \});\
+\
+  // Create the email content\
+  const mailOptions = \{\
+    from: 'your-email@example.com', // Replace with your SMTP email\
+    to: email, // The user's email address\
+    subject: 'Verify your email address',\
+    text: `Please click the following link to verify your email address: http://localhost:3000/verify-email?token=$\{verificationToken\}`,\
+  \};\
+\
+  // Send the email\
+  const info = await transporter.sendMail(mailOptions);\
+  console.log(`Email sent: $\{info.messageId\}`);\
+\}\
+\
+\
+app.post('/signup', async (req, res) => \{\
+  // Create a new user with the submitted data\
+  const newUser = new User(\{\
+    email: req.body.email,\
+    password: req.body.password,\
+    isVerified: false,\
+    verificationToken: uuidv4(), // Generate a unique verification token\
+  \});\
+\
+  // Save the new user to the database\
+  await newUser.save();\
+\
+  // Send the verification email to the user's email address\
+  await sendVerificationEmail(newUser.email, newUser.verificationToken);\
+\
+  // Return a response to the client\
+  res.json(\{ message: 'User created successfully. Please check your email to verify your account.' \});\
+\});\
+}

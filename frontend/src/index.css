@@ -1,0 +1,296 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
+:root {
+  --bs-primary: #171717;
+  --bs-secondary: #1f1f1f;
+  --bs-ternary: #f28123;
+  --bs-white: #ffffff;
+  --bs-muted-white: #5e5e5e;
+}
+
+body {
+  background-color: var(--bs-primary);
+  font-family: "Source Sans Pro", sans-serif;
+  color: var(--bs-white);
+}
+
+a {
+  text-decoration: none;
+  color: var(--bs-white);
+}
+
+a:hover {
+  color: var(--bs-ternary);
+}
+
+.list-group-item {
+  background-color: var(--bs-secondary);
+  padding: 30px;
+  color: var(--bs-white);
+  margin-left: 5px;
+}
+
+.card {
+  background-color: var(--bs-secondary);
+}
+
+.Updates {
+  border-left: 5px solid rgb(255, 57, 57);
+}
+
+.Methods {
+  border-left: 5px solid rgb(79, 128, 233);
+}
+
+.Books {
+  border-left: 5px solid rgb(255, 153, 0);
+}
+
+.Movies {
+  border-left: 5px solid rgb(250, 100, 137);
+}
+
+.Games {
+  border-left: 5px solid rgb(69, 225, 58);
+}
+
+.Music {
+  border-left: 5px solid rgb(167, 84, 167);
+}
+
+.Off-topic {
+  border-left: 5px solid grey;
+}
+
+.btn {
+  background-color: var(--bs-ternary);
+}
+
+.navbar {
+  padding: 15px 0 15px 0;
+}
+.nav .register {
+  border: 1px solid var(--bs-secondary);
+  padding: 6px;
+  border-radius: 5px;
+  background-color: var(--bs-ternary);
+}
+
+.nav .register a {
+  color: var(--bs-secondary);
+}
+
+.nav .register a:hover {
+  color: var(--bs-white);
+}
+.nav .login {
+  border: 1px solid var(--bs-white);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.nav i {
+  margin-right: 3px;
+}
+
+.login-box {
+  color: var(--bs-ternary);
+}
+
+.login-box button {
+  color: var(--bs-primary);
+}
+
+.register-container {
+  margin-top: 75px;
+}
+
+.notif-container .title {
+  border-bottom: 1px solid var(--bs-white);
+  padding-bottom: 10px;
+  width: 225px;
+}
+
+.topic-title {
+  color: var(--bs-ternary);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--bs-ternary);
+  padding: 5px;
+}
+
+.crop-text-1 {
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.un-suko-small {
+  background: url(https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/previews/644ded1a29ab9db5065e9706/download/21443747-removebg-preview.png)
+    no-repeat;
+  cursor: pointer;
+  border: none;
+  background-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.suko-small {
+  background: url(https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/previews/644ded1a29ab9db5065e9706/download/21443747-removebg-preview.png)
+    no-repeat;
+  cursor: pointer;
+  border: none;
+  background-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.post-card a {
+  color: var(--bs-muted-white);
+  border-bottom: 1px solid var(--bs-muted-white);
+}
+
+.post-card a:hover {
+  color: var(--bs-white);
+}
+
+.post-content {
+  font-size: large;
+  max-width: 1000px;
+  max-height: 500px;
+}
+
+.post {
+  border: 1px solid black;
+  max-width: 1500px;
+  max-height: 750px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-details {
+  max-width: 1500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-details .content {
+  max-width: 1100px;
+}
+
+.back-to-posts a {
+  color: var(--bs-muted-white);
+  font-size: 25px;
+}
+
+.back-to-posts a:hover {
+  color: var(--bs-ternary);
+}
+
+.comment {
+  border: 1px solid black;
+}
+
+.ternary-link a {
+  color: var(--bs-ternary);
+}
+
+.ternary-link a:hover {
+  color: var(--bs-white);
+}
+
+.post-details .author-section {
+  margin-left: auto;
+}
+
+.comment .author-section {
+  margin-left: auto;
+}
+
+.edit {
+  padding: 0%;
+  background-color: var(--bs-secondary);
+  color: var(--bs-ternary);
+  border: none;
+}
+
+.author-section .delete {
+  padding: 0%;
+  background-color: var(--bs-secondary);
+  color: var(--bs-ternary);
+  border: none;
+  margin-right: 10px;
+}
+
+.author-section btn:hover {
+  color: var(--bs-ternary);
+}
+
+.author-section btn:hover {
+  color: var(--bs-white);
+}
+
+.create-post .title {
+  color: var(--bs-ternary);
+}
+
+.form-control {
+  background-color: var(--bs-secondary);
+  color: var(--bs-white);
+}
+
+.form-control:focus {
+  background-color: var(--bs-secondary);
+  color: var(--bs-white);
+  border-color: var(--bs-ternary);
+  box-shadow: 0 0 2px var(--bs-ternary);
+}
+
+.about-me .card-header {
+  padding-bottom: 1px;
+}
+
+.about-me .content {
+  max-height: 260px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.stats {
+  text-align: center;
+}
+
+.nav-link {
+  color: var(--bs-ternary);
+}
+
+.nav-link:hover {
+  color: var(--bs-white);
+}
+
+.active {
+  background-color: var(--bs-secondary);
+  color: var(--bs-ternary);
+}
+.navbar-design .desktop {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+@media screen and (max-width: 1000px) {
+  .mobile-nav {
+    display: block;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+}
+
+.topic {
+  padding-right: 20px;
+}
