@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rizz Form</title>
+  </head>
+  <body>
+    <h1>This is Rizz</h1>
+    <form id="myForm" action="/login" method="POST">
+      <input type="text" name="text" placeholder="Name" value="" required />
+      <input type="email" name="email" placeholder="Email" value="" required />
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      // Inputing name and email
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("myForm");
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const text = form.querySelector('input[name="text"]').value;
+          const email = form.querySelector('input[name="email"]').value;
+
+          // Send a POST request to the server's /login route with the form data
+          const response = await fetch("http://localhost:3001/login", {
+            // Same port/route in the backend api.js
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text, email }),
+          });
+
+          if (response.ok) {
+            alert("Data saved successfully");
+            form.reset();
+          } else {
+            console.error("Error saving data");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

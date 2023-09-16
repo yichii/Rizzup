@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function App() {
-  const [name, setName] = useState("");
+  const [text, setText] = useState("");
   const [email, setEmail] = useState("");
 
   const handleOnSubmit = async (e) => {
@@ -14,13 +14,13 @@ function App() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email }),
+      body: JSON.stringify({ text, email }),
     });
 
     if (response.ok) {
       alert("Data saved successfully");
       setEmail("");
-      setName("");
+      setText("");
     } else {
       console.error("Error saving data");
     }
@@ -33,8 +33,8 @@ function App() {
         <input
           type="text"
           placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
         <input
           type="email"

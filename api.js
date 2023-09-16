@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Middleware
-app.use(express.static(path.join(__dirname, "frontend")));
+// app.use(express.static(path.join(__dirname, "frontend"))); // Optional I think
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -43,9 +43,11 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Routes
-app.get("/login", (req, res) => {
+
+app.get("/login", function (req, res) {
   res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
+// Renders html file in frontend
 
 app.post("/login", async (req, res) => {
   try {
