@@ -1,72 +1,50 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import PostDetails from ".//components/PostDetails";
-// import HomePage from ".//components/HomePage";
-// import Login from ".//components/Login";
-// import Posts from ".//components/Posts";
-// import Register from ".//components/Register";
-// import CreatePost from ".//components/CreatePost";
-// import UserProfile from ".//components/UserProfile";
-// import NotificationsPage from ".//components/NotificationsPage";
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <BrowserRouter>
-//         <Routes>
-//           <Route path="/" element={<HomePage />} />
-//           <Route path="/register" element={<Register />} />
-//           <Route path="/login" element={<Login />} />
-//           <Route path="/posts/:topicName" element={<Posts />} />
-//           <Route path="/posts/:topicName/:id" element={<PostDetails />} />
-//           <Route
-//             path="/posts/:topicName/create-post"
-//             element={<CreatePost />}
-//           />
-//           <Route path="/users/:username" element={<UserProfile />} />
-//           <Route path="/notifications" element={<NotificationsPage />} />
-//         </Routes>
-//       </BrowserRouter>
-//     </div>
-//   );
-// }
-
-// export default App;
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from ".//components/HomePage";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    // Make a GET request to the correct backend URL
-    fetch("http://localhost:3001/message")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMessage(data.message);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setMessage("Error occurred while fetching data");
-      });
-  }, []);
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+
+    // Send a POST request to server's /login route with the form data
+    const response = await fetch("http://localhost:3001/login", {
+      // Same port/route in backend api.js
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email }),
+    });
+
+    if (response.ok) {
+      alert("Data saved successfully");
+      setEmail("");
+      setName("");
+    } else {
+      console.error("Error saving data");
+    }
+  };
 
   return (
-    <div>
-      <p>Message from the backend: {message}</p>
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </div>
+    <>
+      <h1>This is Rizz</h1>
+      <form onSubmit={handleOnSubmit}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </>
   );
 }
 

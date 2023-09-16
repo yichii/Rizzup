@@ -1,64 +1,68 @@
 const express = require("express");
-const app = express();
-
-const dotenv = require("dotenv");
-dotenv.config();
-
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
+const dotenv = require("dotenv");
 
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 3001;
+
+// Middleware
 app.use(express.static(path.join(__dirname, "frontend")));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
+
+// MongoDB Connection
 console.log("Attempting to connect to MongoDB");
-
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-  "mongodb+srv://afc:rizzup@cluster0.adituwi.mongodb.net/?retryWrites=true&w=majority";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-async function run() {
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB!");
+});
+
+// Define User Schema and Model
+const userSchema = new mongoose.Schema({
+  text: String,
+  email: String,
+});
+
+const User = mongoose.model("User", userSchema);
+
+// Routes
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+});
+
+app.post("/login", async (req, res) => {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    const newUser = new User({
+      text: req.body.text,
+      email: req.body.email,
+    });
+    const result = await newUser.save();
+    console.log("User saved:", result);
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error saving user:", error);
+    res.status(500).send("Something went wrong");
   }
-}
-run().catch(console.dir);
+});
 
-// const posts = require("./frontend/routes/posts");
-// app.use("/posts", posts);
-
-// const users = require("./frontend/routes/users");
-// app.use("/users", users);
-
-// const comments = require("./frontend/routes/comments");
-// app.use("/comments", comments);
-
-// const notifications = require("./frontend/routes/notifications");
-// app.use("/notifications", notifications);
-
-const port = 3001;
-app.listen(port, () => console.log(`Rizz app listening on port ${port}`));
-
-//test message
-app.get("/message", (req, res) => {
-  const message = "Hello!";
-  res.json({ message });
+// Start the server
+app.listen(port, () => {
+  console.log(`Rizz app listening on port ${port}`);
 });
