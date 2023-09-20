@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { Navbar } from "./Navbar";
+import { Navbar } from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import ErrorAlert from "./ErrorAlert";
+import ErrorAlert from "../components/ErrorAlert";
 import { API_URL } from "../config";
 
 const Register = () => {

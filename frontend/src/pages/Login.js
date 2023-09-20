@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../config";
-import ErrorAlert from "./ErrorAlert";
-import { Navbar } from "./Navbar";
+import ErrorAlert from "../components/ErrorAlert";
+import { Navbar } from "../components/Navbar";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
