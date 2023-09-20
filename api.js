@@ -36,7 +36,8 @@ db.once("open", () => {
 
 // Define User Schema and Model
 const userSchema = new mongoose.Schema({
-  text: String,
+  username: String,
+  password: String,
   email: String,
 });
 
@@ -44,20 +45,21 @@ const User = mongoose.model("User", userSchema);
 
 // Routes
 
-app.get("/login", function (req, res) {
+app.get("/register", function (req, res) {
   res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
 // Renders html file in frontend
 
-app.post("/login", async (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const newUser = new User({
-      text: req.body.text,
+      username: req.body.username,
+      password: req.body.password,
       email: req.body.email,
     });
     const result = await newUser.save();
     console.log("User saved:", result);
-    res.redirect("/login");
+    res.redirect("/register");
   } catch (error) {
     console.error("Error saving user:", error);
     res.status(500).send("Something went wrong");
