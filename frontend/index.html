@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>This is Rizz</h1>
-    <form id="myForm" action="/register" method="POST">
+    <form id="myForm" action="/Register" method="POST">
       <input type="text" name="username" placeholder="Name" value="" required />
       <input
         type="password"
@@ -33,7 +33,7 @@
           const email = form.querySelector('input[name="email"]').value;
 
           // Send a POST request to the server's /login route with the form data
-          const response = await fetch("http://localhost:3001/register", {
+          const response = await fetch("http://localhost:3001/Register", {
             // Same port/route in the backend api.js
             method: "POST",
             headers: {

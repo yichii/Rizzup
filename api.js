@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
+const User = require("./frontend/models/Users");
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Middleware
-// app.use(express.static(path.join(__dirname, "frontend"))); // Optional I think
+app.use(express.static(path.join(__dirname, "frontend"))); // Optional I think
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -34,21 +35,12 @@ db.once("open", () => {
   console.log("Connected to MongoDB!");
 });
 
-// Define User Schema and Model
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  email: String,
-});
-
-const User = mongoose.model("User", userSchema);
-
 // Routes
 
 app.get("/register", function (req, res) {
-  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+  res.sendFile(path.join(__dirname, "frontend", "src", "Register.js"));
 });
-// Renders html file in frontend
+// Renders html/js file in frontend
 
 app.post("/register", async (req, res) => {
   try {
@@ -64,6 +56,20 @@ app.post("/register", async (req, res) => {
     console.error("Error saving user:", error);
     res.status(500).send("Something went wrong");
   }
+});
+
+//Error handler
+app.use(function (err, req, res, next) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // Render the error page
+  res.status(err.status || 500);
+  res.json({
+    title: "Error Page",
+    message: err.message,
+    error: err,
+  });
 });
 
 // Start the server
