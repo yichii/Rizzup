@@ -15,6 +15,10 @@ cd rizzup
 In your terminal, navigate to the /backend directory of the project and run the following command to install the backend dependencies:
 
 ```bash
+cd backend
+```
+
+```bash
 npm install
 ```
 
