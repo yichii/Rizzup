@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
   const [text, setText] = useState("");
@@ -27,25 +30,17 @@ function App() {
   };
 
   return (
-    <>
-      <h1>This is Rizz</h1>
-      <form onSubmit={handleOnSubmit}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-      </form>
-    </>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home></Home>} />
+          <Route path="/login" element={<Login></Login>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+    
   );
 }
+
 
 export default App;
