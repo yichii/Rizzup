@@ -39,16 +39,16 @@ const Login = () => {
         <div className="row mt-4">
           <div className="col-sm-6">
             <img
-              src="https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/images/methode/2018/09/17/a9c2eed6-b4c5-11e8-89ab-e29b0678280a_1280x720_135442.PNG?itok=jtooF5gj"
+              src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
               alt=""
-              style={{ width: "600px" }}
+              style={{ width: "100%", height: "100%", left: "580px", top: "84px" }}
             />
           </div>
           <div className="col-sm-6 login-box mt-5">
-            <h1 className="mt-3 mb-2">Login</h1>
+            <h1 className="mt-3 mb-2">Enter the World of Rizz</h1>
             <h5 className=" mb-4" style={{ color: "#5e5e5e" }}>
               {" "}
-              Welcome back to RizzUp!{" "}
+              More than 0 questions are waiting for your wise suggestions!{" "}
             </h5>
             <form>
               <div className="mb-3">

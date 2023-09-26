@@ -1,0 +1,53 @@
+<div style="width: 100%; height: 100%; position: relative; background: #FAFAFA">
+    <div style="height: 701px; padding-left: 100px; padding-right: 100px; padding-top: 193px; padding-bottom: 193px; left: 0px; top: 84px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 20px; display: inline-flex">
+        <div style="color: black; font-size: 24px; font-family: Roboto; font-weight: 900; text-transform: capitalize; letter-spacing: 1.20px; word-wrap: break-word">Enter the World of rizz</div>
+        <div style="width: 380px; color: black; font-size: 18px; font-family: Roboto; font-weight: 300; line-height: 30px; letter-spacing: 0.90px; word-wrap: break-word">More than 0 questions are waiting for your wise suggestions!</div>
+        <div style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 15px; display: flex">
+            <div style="height: 42px; padding-left: 15px; padding-right: 15px; padding-top: 8px; padding-bottom: 8px; background: white; border-radius: 5px; overflow: hidden; border: 1px #EAEAEA solid; justify-content: center; align-items: center; gap: 11px; display: inline-flex">
+                <div style="width: 326px; align-self: stretch; position: relative">
+                    <div style="width: 226px; left: 0px; top: 0px; position: absolute; color: #808080; font-size: 8px; font-family: Roboto; font-weight: 300; letter-spacing: 0.16px; word-wrap: break-word">Username</div>
+                    <div style="width: 326px; left: 0px; top: 11px; position: absolute; color: black; font-size: 13px; font-family: Roboto; font-weight: 400; letter-spacing: 0.26px; word-wrap: break-word">TheRizzardKing</div>
+                </div>
+                <div style="width: 13px; height: 13px; position: relative; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                    <div style="width: 8.67px; height: 5.96px; border: 2px #17A100 solid"></div>
+                </div>
+            </div>
+            <div style="height: 42px; padding-left: 15px; padding-right: 15px; padding-top: 8px; padding-bottom: 8px; background: white; border-radius: 5px; overflow: hidden; border: 1px #EAEAEA solid; justify-content: center; align-items: center; gap: 11px; display: inline-flex">
+                <div style="width: 326px; align-self: stretch; position: relative">
+                    <div style="width: 226px; left: 0px; top: 0px; position: absolute; color: #808080; font-size: 8px; font-family: Roboto; font-weight: 300; letter-spacing: 0.16px; word-wrap: break-word">Password</div>
+                    <div style="width: 326px; left: 0px; top: 11px; position: absolute; color: black; font-size: 13px; font-family: Roboto; font-weight: 400; letter-spacing: 0.26px; word-wrap: break-word">****</div>
+                </div>
+                <div style="width: 13px; height: 13px; position: relative; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+                    <div style="width: 10.83px; height: 10.83px; border: 2px #FF0000 solid"></div>
+                    <div style="width: 3.25px; height: 3.25px; border: 2px #FF0000 solid"></div>
+                    <div style="width: 3.25px; height: 3.25px; border: 2px #FF0000 solid"></div>
+                </div>
+            </div>
+            <div style="color: #FF0000; font-size: 10px; font-family: Roboto; font-weight: 500; line-height: 20px; letter-spacing: 0.20px; word-wrap: break-word">Wrong password!</div>
+            <div style="width: 380px; padding-top: 12px; padding-bottom: 11px; background: #F28123; border-radius: 5px; overflow: hidden; justify-content: center; align-items: center; display: inline-flex">
+                <div style="text-align: center; color: white; font-size: 13px; font-family: Roboto; font-weight: 900; letter-spacing: 0.26px; word-wrap: break-word">Login</div>
+            </div>
+        </div>
+    </div>
+    <img style="width: 860px; height: 816px; left: 580px; top: 84px; position: absolute" src="https://via.placeholder.com/860x816" />
+    <div style="width: 1440px; height: 84px; left: 0px; top: 0px; position: absolute; background: white; border: 1px #EAEAEA solid">
+        <div style="width: 106px; height: 35px; left: 58px; top: 28px; position: absolute">
+            <img style="width: 79px; height: 26px; left: 27px; top: 4px; position: absolute" src="https://via.placeholder.com/79x26" />
+            <img style="width: 27px; height: 35px; left: 0px; top: 0px; position: absolute" src="https://via.placeholder.com/27x35" />
+        </div>
+        <div style="left: 1204px; top: 23px; position: absolute">
+            <div style="width: 113px; height: 38px; padding-left: 20px; padding-right: 20px; padding-top: 12px; padding-bottom: 12px; left: 0px; top: 0px; position: absolute; background: #F28123; border-radius: 5px; overflow: hidden; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
+                <div style="width: 13px; height: 13px; position: relative">
+                    <div style="width: 8.12px; height: 3.25px; left: 0.54px; top: 8.12px; position: absolute; border: 1px white solid"></div>
+                    <div style="width: 4.33px; height: 4.33px; left: 2.44px; top: 1.62px; position: absolute; border: 1px white solid"></div>
+                    <div style="width: 0px; height: 3.25px; left: 10.83px; top: 4.33px; position: absolute; border: 1px white solid"></div>
+                    <div style="width: 3.25px; height: 0px; left: 9.21px; top: 5.96px; position: absolute; border: 1px white solid"></div>
+                </div>
+                <div style="color: white; font-size: 12px; font-family: Roboto; font-weight: 900; letter-spacing: 0.24px; word-wrap: break-word">Register</div>
+            </div>
+            <div style="width: 72px; height: 38px; padding-left: 20px; padding-right: 20px; padding-top: 12px; padding-bottom: 12px; left: 129px; top: 0px; position: absolute; background: #EAEAEA; border-radius: 5px; overflow: hidden; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
+                <div style="color: #1682FD; font-size: 12px; font-family: Roboto; font-weight: 900; letter-spacing: 0.24px; word-wrap: break-word">Login</div>
+            </div>
+        </div>
+    </div>
+</div>
