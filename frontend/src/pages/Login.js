@@ -37,14 +37,7 @@ const Login = () => {
       <Navbar />
       <div className="container">
         <div className="row mt-4">
-          <div className="col-sm-6">
-            <img
-              src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
-              alt=""
-              style={{ width: "100%", height: "100%", left: "580px", top: "84px" }}
-            />
-          </div>
-          <div className="col-sm-6 login-box mt-5">
+        <div className="col-sm-6 login-box mt-5">
             <h1 className="mt-3 mb-2">Enter the World of Rizz</h1>
             <h5 className=" mb-4" style={{ color: "#5e5e5e" }}>
               {" "}
@@ -99,6 +92,13 @@ const Login = () => {
                 </Link>{" "}
               </h6>
             </form>
+          </div>
+          <div className="col-sm-6">
+            <img
+              src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
+              alt=""
+              style={{ width: "100%", height: "100%", left: "580px", top: "84px" }}
+            />
           </div>
         </div>
       </div>
