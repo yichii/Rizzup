@@ -6,7 +6,7 @@ const Topic = (props) => {
     <div className="topic">
       <li className={"list-group-item mb-1 " + props.topic}>
         <h4>
-          {props.topic == "Updates" ? (
+          {props.topic === "Updates" ? (
             <Link to={"/posts/" + props.topic}>
               <div className="d-flex justify-content-between">
                 <div>{props.topic}</div>

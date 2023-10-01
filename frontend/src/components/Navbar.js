@@ -15,8 +15,8 @@ export const Navbar = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "var(--bs-secondary)" }}>
-      <nav className="navbar navbar-expand-lg mx-3 shadow">
+    <div>
+      <nav className="navbar navbar-expand-lg shadow">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             <Link to="/">
