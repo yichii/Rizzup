@@ -35,73 +35,76 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="container">
-        <div className="row mt-4">
-          <div className="col-sm-6">
-            <img
-              src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
-              alt=""
-              style={{ width: "100%", height: "100%", left: "580px", top: "84px" }}
-            />
-          </div>
-          <div className="col-sm-6 login-box mt-5">
-            <h1 className="mt-3 mb-2">Enter the World of Rizz</h1>
-            <h5 className=" mb-4" style={{ color: "#5e5e5e" }}>
-              {" "}
-              More than 0 questions are waiting for your wise suggestions!{" "}
-            </h5>
-            <form>
-              <div className="mb-3">
-                <label className="form-label">
-                  <i
-                    className="fa-regular fa-circle-user mx-1"
-                    style={{ color: "#5e5e5e" }}
-                  ></i>{" "}
-                  Username
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={formData.username}
-                  name="username"
-                  onChange={handleFormDataChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">
-                  <i
-                    class="fa-solid fa-lock mx-1"
-                    style={{ color: "#5e5e5e" }}
-                  ></i>{" "}
-                  Password
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={formData.password}
-                  name="password"
-                  onChange={handleFormDataChange}
-                />
-              </div>
-              <ErrorAlert error={error} />
-              <button
-                type="submit"
-                className="btn btn-primary mt-1"
-                onClick={handleSubmitClick}
-              >
-                Submit
-              </button>
-              <h6 className="mt-2" style={{ color: "#5e5e5e" }}>
-                {"  "}
-                Don't have a RizzUp account yet?{" "}
-                <Link to="/register" style={{ color: "#F28123" }}>
-                  Register
-                </Link>{" "}
-              </h6>
-            </form>
+      <section class="vh-100"> 
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-sm-5 login-box mt-5">
+              <h1 className="mt-3 mb-2">Enter the World of Rizz</h1>
+              <h5 className=" mb-4" style={{ color: "#5e5e5e" }}>
+                {" "}
+                More than 0 questions are waiting for your wise suggestions!{" "}
+              </h5>
+              <form>
+                <div className="mb-3">
+                  <label className="form-label">
+                    <i
+                      className="fa-regular fa-circle-user mx-1"
+                      style={{ color: "#5e5e5e" }}
+                    ></i>{" "}
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={formData.username}
+                    name="username"
+                    onChange={handleFormDataChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="form-label">
+                    <i
+                      class="fa-solid fa-lock mx-1"
+                      style={{ color: "#5e5e5e" }}
+                    ></i>{" "}
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    value={formData.password}
+                    name="password"
+                    onChange={handleFormDataChange}
+                  />
+                </div>
+                <ErrorAlert error={error} />
+                <button
+                  type="submit"
+                  className="btn btn-primary mt-1"
+                  onClick={handleSubmitClick}
+                >
+                  Submit
+                </button>
+                <h6 className="mt-2" style={{ color: "#5e5e5e" }}>
+                  {"  "}
+                  Don't have a RizzUp account yet?{" "}
+                  <Link to="/register" style={{ color: "#F28123" }}>
+                    Register
+                  </Link>{" "}
+                </h6>
+              </form>
+            </div>
+            <div className="col-sm-7 px-0 d-none d-sm-block">
+              <img
+                src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
+                alt="Login cover"
+                class="w-100 d-inline-block h-100"
+                style={{ objectFit: "cover", objectPosition: "right" }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+        </section>
     </div>
   );
 };
