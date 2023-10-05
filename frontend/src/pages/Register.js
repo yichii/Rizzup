@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { Navbar } from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
 
@@ -31,23 +30,21 @@ const Register = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="container register-container">
-        <div className="row">
-          <div className="col-sm-6">
-            <img
-              src="https://hips.hearstapps.com/hmg-prod/images/ken-1534533711.jpg"
-              alt="Ken Jeong"
-              style={{ width: "90%" }}
-            />
-          </div>
-          <div className="col-sm-6 login-box">
+      <section>
+        <div className="container-fluid row p-0 m-0 vh-100">
+          <div className="col-sm-5 register-box m-auto">
+            <div class="px-5 ms-xl-4">
+              <a class="navbar-brand" href="#top">
+                <img src="https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/download/21443747-removebg-preview.png" width="50" height="50" alt=""></img>
+              </a>
+              <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
+            </div>
             <h1 className="mt-3 mb-2" style={{ color: "#F28123" }}>
-              Register
+              Join RizzUp community
             </h1>
             <h5 className=" mb-4" style={{ color: "#5e5e5e" }}>
               {"  "}
-              Welcome to RizzUp! Register to get started.{" "}
+              Learn and share how to Rizz someone up from the community.{" "}
             </h5>
             <form>
               <div className="mb-3" style={{ color: "#F28123" }}>
@@ -120,8 +117,16 @@ const Register = () => {
               </h6>
             </form>
           </div>
+          <div className="col-sm-7 px-0 d-none d-sm-block vh-100">
+            <img
+              src="https://readthemike.com/wp-content/uploads/2023/02/21st-Century-Dating-YES-Magazine--1170x702.jpeg"
+              alt="Register page cover"
+              class="w-100 vh-100 d-inline-block"
+              style={{ objectFit: "cover", objectPosition: "right" }}
+            />
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

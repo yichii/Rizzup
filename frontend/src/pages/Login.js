@@ -93,7 +93,7 @@ const Login = () => {
           <div className="col-sm-7 px-0 d-none d-sm-block vh-100">
             <img
               src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
-              alt="Login cover"
+              alt="Login page cover"
               class="w-100 vh-100 d-inline-block"
               style={{ objectFit: "cover", objectPosition: "right" }}
             />
