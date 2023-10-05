@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
-import { Navbar } from "../components/Navbar";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
@@ -34,15 +33,20 @@ const Login = () => {
 
   return (
     <div>
-      <Navbar />
       <section> 
         
-        <div className="row vh-100">
-          <div className="col-sm-5 login-box mt-5">
-            <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+        <div className="container-fluid row p-0 m-0 vh-100">
+          <div className="col-sm-5 login-box m-auto">
+            <div class="px-5 ms-xl-4">
+              <a class="navbar-brand" href="#top">
+                <img src="https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/download/21443747-removebg-preview.png" width="50" height="50" alt=""></img>
+              </a>
+              <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
+            </div>
+            <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
               <form>
                 <h1 className="mt-3 mb-2 font-weight-bold text-black">Enter the World of Rizz</h1>
-                <h5 className="mb-4 text-black ">
+                <h5 className="mb-4 mt-  text-black ">
                   {" "}
                   More than 0 questions are waiting for your wise suggestions!{" "}
                 </h5>
@@ -71,12 +75,12 @@ const Login = () => {
                 <ErrorAlert error={error} />
                 <button
                   type="Login"
-                  class="w-100 btn btn-primary mt-1"
+                  class="w-100 btn btn:hover border-0 mt-1"
                   onClick={handleSubmitClick}
                 >
                   Login
                 </button>
-                <h6 className="mt-2" style={{ color: "#5e5e5e" }}>
+                <h6 className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
                   {"  "}
                   Don't have a RizzUp account yet?{" "}
                   <Link to="/register" style={{ color: "#F28123" }}>

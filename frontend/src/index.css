@@ -3,6 +3,7 @@
   --bs-primary: ##808080;
   --bs-secondary: #1f1f1f;
   --bs-ternary: #f28123;
+  --bs-muted-ternary: rgb(219, 109, 19);
   --bs-white: #ffffff;
   --bs-muted-white: #eaeaea;
 }
@@ -65,6 +66,10 @@ a:hover {
   background-color: var(--bs-ternary);
   border: none;
   color: var(--bs-white)
+}
+
+.btn:hover {
+  background-color: var(--bs-muted-ternary);
 }
 
 /* .navbar {
@@ -229,12 +234,8 @@ a:hover {
   margin-right: 10px;
 }
 
-.author-section btn:hover {
-  color: var(--bs-ternary);
-}
-
-.author-section btn:hover {
-  color: var(--bs-white);
+.author-section {
+  color: var(--bs-muted-ternary);
 }
 
 .create-post .title {
@@ -247,8 +248,7 @@ a:hover {
 }
 
 .form-control:focus {
-  background-color: var(--bs-secondary);
-  color: var(--bs-white);
+  color: var(--bs-muted-white);
   border-color: var(--bs-ternary);
   box-shadow: 0 0 2px var(--bs-ternary);
 }
