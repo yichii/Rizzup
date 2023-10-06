@@ -1,0 +1,9 @@
+node_modules/
+backend/node_modules/
+*.zip
+.DS_Store
+.idea
+notes.md
+.variables.env
+.env
+*.pdf
