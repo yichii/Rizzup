@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
 :root {
-  --bs-primary: #171717;
+  --bs-primary: ##808080;
   --bs-secondary: #1f1f1f;
   --bs-ternary: #f28123;
+  --bs-muted-ternary: rgb(219, 109, 19);
   --bs-white: #ffffff;
-  --bs-muted-white: #5e5e5e;
+  --bs-muted-white: #eaeaea;
 }
 
 body {
@@ -15,7 +16,7 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--bs-white);
+  color: var(--bs-secondary);
 }
 
 a:hover {
@@ -63,20 +64,25 @@ a:hover {
 
 .btn {
   background-color: var(--bs-ternary);
+  border: none;
+  color: var(--bs-white)
 }
 
-.navbar {
-  padding: 15px 0 15px 0;
+.btn:hover {
+  background-color: var(--bs-muted-ternary);
 }
+
+/* .navbar {
+} */
+
 .nav .register {
-  border: 1px solid var(--bs-secondary);
-  padding: 6px;
+  padding: 12px 20px;
   border-radius: 5px;
   background-color: var(--bs-ternary);
 }
 
 .nav .register a {
-  color: var(--bs-secondary);
+  color: var(--bs-white);
 }
 
 .nav .register a:hover {
@@ -84,8 +90,10 @@ a:hover {
 }
 .nav .login {
   border: 1px solid var(--bs-white);
-  padding: 5px;
+  padding: 12px 20px;
   border-radius: 5px;
+  color: #1682FD;
+  background-color: var(--bs-muted-white);
 }
 
 .nav i {
@@ -93,11 +101,15 @@ a:hover {
 }
 
 .login-box {
-  color: var(--bs-ternary);
+  color: var(--bs-white);
 }
 
 .login-box button {
   color: var(--bs-primary);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.26px;
+  word-wrap: break-word;
 }
 
 .register-container {
@@ -222,12 +234,8 @@ a:hover {
   margin-right: 10px;
 }
 
-.author-section btn:hover {
-  color: var(--bs-ternary);
-}
-
-.author-section btn:hover {
-  color: var(--bs-white);
+.author-section {
+  color: var(--bs-muted-ternary);
 }
 
 .create-post .title {
@@ -235,13 +243,12 @@ a:hover {
 }
 
 .form-control {
-  background-color: var(--bs-secondary);
-  color: var(--bs-white);
+  background-color: var(--bs-white);
+  color: var(--bs-muted-white);
 }
 
 .form-control:focus {
-  background-color: var(--bs-secondary);
-  color: var(--bs-white);
+  color: var(--bs-muted-white);
   border-color: var(--bs-ternary);
   box-shadow: 0 0 2px var(--bs-ternary);
 }
@@ -269,7 +276,6 @@ a:hover {
 }
 
 .active {
-  background-color: var(--bs-secondary);
   color: var(--bs-ternary);
 }
 .navbar-design .desktop {

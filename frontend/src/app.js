@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import Login from "./Login";
+import Home from './pages/Home';
 import Register from "./Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/Register" element={<Register />}></Route>
-        <Route path="/Login" element={<Login />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home></Home>} />
+          <Route path="/login" element={<Login></Login>} />
+          <Route path="/register" element={<Register></Register>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+   
   );
 }
 export default App;
