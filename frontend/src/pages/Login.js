@@ -1,7 +1,10 @@
+
 import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
+
+
 
 const Login = () => {
   const [formData, setFormData] = useState({});
@@ -14,7 +17,7 @@ const Login = () => {
 
   const handleSubmitClick = async (e) => {
     e.preventDefault();
-    const res = await fetch(process.env.API_URL + "users/login/", {
+    const res = await fetch(API_URL + "users/login/", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
@@ -29,7 +32,8 @@ const Login = () => {
     } else {
       setError(data.message);
     }
-  };
+ };
+
 
   return (
     <div>
@@ -105,4 +109,5 @@ const Login = () => {
   );
 };
 
-export default Login;
+
+// export default Login;
