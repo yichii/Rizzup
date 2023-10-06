@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
 const User = require("./models/Users");
+const bcrypt = require("bcrypt");
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const port = process.env.PORT || 3001;
 app.use(express.static(path.join(__dirname, "frontend"))); // Optional I think
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 const corsOptions = {
@@ -40,6 +42,10 @@ db.once("open", () => {
 app.get("/register", function (req, res) {
   res.sendFile(path.join(__dirname, "frontend", "src", "Register.js"));
 });
+
+app.get("/login", function (req, res) {
+  res.sendFile(path.join(__dirname, "frontend", "src", "Login.js"));
+});
 // Renders html/js file in frontend
 
 app.post("/register", async (req, res) => {
@@ -49,8 +55,19 @@ app.post("/register", async (req, res) => {
       password: req.body.password,
       email: req.body.email,
     });
-    const result = await newUser.save();
-    console.log("User saved:", result);
+    const existingUser = await User.findOne({
+      username: newUser.username,
+    });
+    if (existingUser) {
+      res.send("User already exists. Please choose a different name");
+    } else {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
+      newUser.password = hashedPassword;
+      const result = await User.insertMany(newUser);
+      console.log("User saved:", result);
+    }
+
     res.redirect("/register");
   } catch (error) {
     console.error("Error saving user:", error);
@@ -58,6 +75,25 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  try {
+    const check = await User.findOne({ username: req.body.username });
+    if (!check) {
+      res.send("username cannot be found");
+    }
+    const isPasswordMatch = await bcrypt.compare(
+      req.body.password,
+      check.password
+    );
+    if (isPasswordMatch) {
+      res.render("/");
+    } else {
+      req.send("wrong password");
+    }
+  } catch {
+    res.send("wrong details");
+  }
+});
 //Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

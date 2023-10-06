@@ -35,22 +35,35 @@ function Login() {
   };
   return (
     <>
-      <h1>This is Rizz</h1>
-      <form onSubmit={handleOnSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <div className="form-container">
+        <h1>This is Rizz</h1>
+        <form onSubmit={handleOnSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Username"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="********"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        <p>
+          Don't have an account?<a href="/register">Register</a>
+        </p>
+      </div>
       {errorMessage && <p className="error">{errorMessage}</p>}
     </>
   );
