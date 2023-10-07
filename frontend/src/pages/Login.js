@@ -45,8 +45,8 @@ const Login = () => {
             </div>
             <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
               <form>
-                <h1 className="mt-3 mb-2 font-weight-bold text-black">Enter the World of Rizz</h1>
-                <h5 className="mb-4 mt-  text-black ">
+                <h1 className="mt-3 mb-2 text-black">Enter the World of Rizz</h1>
+                <h5 className="mb-4 text-black">
                   {" "}
                   More than 0 questions are waiting for your wise suggestions!{" "}
                 </h5>
