@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
 
+
+
 const Login = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState();
@@ -15,7 +17,7 @@ const Login = () => {
 
   const handleSubmitClick = async (e) => {
     e.preventDefault();
-    const res = await fetch(process.env.API_URL + "users/login/", {
+    const res = await fetch(API_URL + "users/login/", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
@@ -41,7 +43,7 @@ const Login = () => {
           <div className="col-sm-5 login-box m-auto">
             <div class="px-5 ms-xl-4">
               <a class="navbar-brand" href="#top">
-                <img src="https://clipart.world/wp-content/uploads/2021/06/Rocket-Ship-clipart-png-free.png" width="50" height="50" alt=""></img>
+                <img src="https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/download/21443747-removebg-preview.png" width="50" height="50" alt=""></img>
               </a>
               <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
             </div>
@@ -108,4 +110,4 @@ const Login = () => {
 };
 
 
-export default Login;
+// export default Login;
