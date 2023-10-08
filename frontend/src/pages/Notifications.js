@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../config";
-import Loading from "./Loading";
-import { Navbar } from "./Navbar";
-import NotificationCard from "./NotificationCard";
+import Loading from "../components/Loading";
+import { Navbar } from "../components/Navbar";
+import NotificationCard from "../components/NotificationCard";
 
 const NotificationsPage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
