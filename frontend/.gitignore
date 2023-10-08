@@ -12,6 +12,10 @@ frontend/node_modules/
 # production
 /build
 
+# cache
+.cache
+.parcel-cache
+
 # misc
 .DS_Store
 .env.local
