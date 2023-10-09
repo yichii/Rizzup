@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { Navbar } from "../components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert";
 
@@ -13,7 +12,7 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmitClick = async (e) => {
+  const handleRegisterClick = async (e) => {
     e.preventDefault();
     const res = await fetch(process.env.API_URL + "users/register", {
       method: "POST",
@@ -31,97 +30,92 @@ const Register = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="container register-container">
-        <div className="row">
-          <div className="col-sm-6">
+      <section>
+        <div className="container-fluid row p-0 m-0 vh-100">
+          <div className="col-sm-5 register-box m-auto">
+            <div class="px-5 ms-xl-4">
+              <a class="navbar-brand" href="#top">
+                <img src="https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/download/21443747-removebg-preview.png" width="50" height="50" alt=""></img>
+              </a>
+              <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
+            </div>
+            
+            <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
+              <form>
+                <h1 className="mt-3 mb-2 text-black" style={{ color: "#F28123" }}>
+                  Join RizzUp community
+                </h1>
+                <h5 className=" mb-4 text-black" style={{ color: "#5e5e5e" }}>
+                  {"  "}
+                  Learn and share how to Rizz someone up from the community.{" "}
+                </h5>
+                <div className="form-outline mb-3" style={{ color: "#F28123" }}>
+                  <input
+                    value={formData.username}
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    onChange={handleFormDataChange}
+                    placeholder="Username"
+                  />
+                </div>
+                <div className="mb-3" style={{ color: "#F28123" }}>
+                  <input
+                    value={formData.email}
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    placeholder="Email"
+                  />
+                </div>
+                <div className="mb-3" style={{ color: "#F28123" }}>
+                  <input
+                    value={formData.password}
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    onChange={handleFormDataChange}
+                    placeholder="Password"
+                  />
+                </div>
+                <div className="mb-3" style={{ color: "#F28123" }}>
+                  <input
+                    value={formData.confirmPassword}
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    onChange={handleFormDataChange}
+                    placeholder="Confirm Password"
+                  />
+                </div>
+                <ErrorAlert error={error} />
+                <button
+                  type="submit"
+                  className="w-100 btn btn:hover border-0 mt-1"
+                  onClick={handleRegisterClick}
+                >
+                  Register
+                </button>
+                <h6 className="mt-2" style={{ color: "#5e5e5e" }}>
+                  {"  "}
+                  Already have an account?{" "}
+                  <Link to="/login" style={{ color: "#F28123" }}>
+                    Login
+                  </Link>{" "}
+                </h6>
+              </form>
+            </div>
+          </div>
+          <div className="col-sm-7 px-0 d-none d-sm-block vh-100">
             <img
-              src="https://hips.hearstapps.com/hmg-prod/images/ken-1534533711.jpg"
-              alt="Ken Jeong"
-              style={{ width: "90%" }}
+              src="https://readthemike.com/wp-content/uploads/2023/02/21st-Century-Dating-YES-Magazine--1170x702.jpeg"
+              alt="Register page cover"
+              class="w-100 vh-100 d-inline-block"
+              style={{ objectFit: "cover", objectPosition: "right" }}
             />
           </div>
-          <div className="col-sm-6 login-box">
-            <h1 className="mt-3 mb-2" style={{ color: "#F28123" }}>
-              Register
-            </h1>
-            <h5 className=" mb-4" style={{ color: "#5e5e5e" }}>
-              {"  "}
-              Welcome to RizzUp! Register to get started.{" "}
-            </h5>
-            <form>
-              <div className="mb-3" style={{ color: "#F28123" }}>
-                <label className="form-label" style={{ color: "#F28123" }}>
-                  <i
-                    class="fa-regular fa-envelope mx-1"
-                    style={{ color: "#5e5e5e" }}
-                  ></i>
-                  {"  "}
-                  Email address
-                </label>
-                <input
-                  value={formData.email}
-                  type="email"
-                  className="form-control"
-                  name="email"
-                  onChange={handleFormDataChange}
-                />
-                <div className="form-text" style={{ color: "#F28123" }}>
-                  We'll never share your email with anyone else.
-                </div>
-              </div>
-              <div className=" mb-3" style={{ color: "#F28123" }}>
-                <label className="form-label">
-                  {" "}
-                  <i
-                    className="fa-regular fa-circle-user mx-1"
-                    style={{ color: "#5e5e5e" }}
-                  ></i>{" "}
-                  Username
-                </label>
-                <input
-                  value={formData.username}
-                  type="text"
-                  className="form-control"
-                  name="username"
-                  onChange={handleFormDataChange}
-                />
-              </div>
-              <div className="mb-3" style={{ color: "#F28123" }}>
-                <label className="form-label">
-                  <i
-                    class="fa-solid fa-lock mx-1"
-                    style={{ color: "#5e5e5e" }}
-                  ></i>{" "}
-                  Password
-                </label>
-                <input
-                  value={formData.password}
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  onChange={handleFormDataChange}
-                />
-              </div>
-              <ErrorAlert error={error} />
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={handleSubmitClick}
-              >
-                Submit
-              </button>
-              <h6 className="mt-2" style={{ color: "#5e5e5e" }}>
-                {"  "}
-                Already have an account?{" "}
-                <Link to="/login" style={{ color: "#F28123" }}>
-                  Login
-                </Link>{" "}
-              </h6>
-            </form>
-          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

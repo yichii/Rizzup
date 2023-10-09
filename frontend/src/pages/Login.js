@@ -49,8 +49,8 @@ const Login = () => {
             </div>
             <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
               <form>
-                <h1 className="mt-3 mb-2 font-weight-bold text-black">Enter the World of Rizz</h1>
-                <h5 className="mb-4 mt-  text-black ">
+                <h1 className="mt-3 mb-2 text-black">Enter the World of Rizz</h1>
+                <h5 className="mb-4 text-black">
                   {" "}
                   More than 0 questions are waiting for your wise suggestions!{" "}
                 </h5>
@@ -97,7 +97,7 @@ const Login = () => {
           <div className="col-sm-7 px-0 d-none d-sm-block vh-100">
             <img
               src="https://static.wixstatic.com/media/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg/v1/fill/w_952,h_941,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/ee95fb_6898367a40f944d295dea95fcd1e0df5~mv2.jpg"
-              alt="Login cover"
+              alt="Login page cover"
               class="w-100 vh-100 d-inline-block"
               style={{ objectFit: "cover", objectPosition: "right" }}
             />
