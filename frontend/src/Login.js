@@ -6,6 +6,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
@@ -13,7 +14,7 @@ function Login() {
       return;
     }
 
-    // Send a POST request to server's /register route with the form data
+    // Send a POST request to server's /login route with the form data
     const response = await fetch("http://localhost:3001/login", {
       // Same port/route in backend api.js
       method: "POST",
@@ -24,19 +25,20 @@ function Login() {
     });
 
     if (response.ok) {
-      alert("Data saved successfully");
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/"); // Redirect to the login page after successful login
+      navigate("/");
     } else {
-      setErrorMessage("Error saving data. Please try again.");
+      setErrorMessage(
+        "Error incorrect user or password data. Please try again."
+      );
     }
   };
   return (
     <>
       <div className="form-container">
-        <h1>This is Rizz</h1>
+        <h1>Login</h1>
         <form onSubmit={handleOnSubmit}>
           <div className="form-group">
             <input

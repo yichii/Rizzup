@@ -1,45 +1,66 @@
-const createError = require("http-errors");
 const express = require("express");
+const router = express.Router();
 const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const bcrypt = require("bcrypt");
 
-const User = require("./model"); // Adjust the path as needed for your User model
+const User = require("./models/Users");
 
-const app = express();
+// router.get("/register", function (req, res) {
+//   res.sendFile(path.join(__dirname, "frontend", "src", "pages", "Register.js"));
+// });
 
-// view engine setup (if needed)
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "jade");
+// router.get("/login", function (req, res) {
+//   res.sendFile(path.join(__dirname, "frontend", "src", "pages", "Login.js"));
+// });
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+// router.get("/home", function (req, res) {
+//   res.sendFile(path.join(__dirname, "frontend", "src", "pages", "Home.js"));
+// });
 
-// Define routes and controllers here
-// For example:
-// app.use("/", indexRouter);
-// app.use("/users", usersRouter);
-
-// Catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+router.post("/register", async (req, res) => {
+  try {
+    const newUser = new User({
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+    });
+    const existingUser = await User.findOne({
+      username: req.body.username,
+    });
+    if (existingUser) {
+      res.send("User already exists. Please choose a different name");
+    } else {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
+      newUser.password = hashedPassword;
+      const result = await User.insertMany(newUser);
+      console.log("User saved:", result);
+    }
+  } catch (error) {
+    console.error("Error saving user:", error);
+    res.status(500).send("Something went wrong");
+  }
 });
 
-// Error handler
-app.use(function (err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // Render the error page
-  res.status(err.status || 500);
-  res.json({
-    title: "Error Page",
-    message: err.message,
-    error: err,
-  });
+router.post("/login", async (req, res) => {
+  try {
+    const check = await User.findOne({ username: req.body.username });
+    if (!check) {
+      res.send("Username cannot be found");
+    }
+    const isPasswordMatch = await bcrypt.compare(
+      req.body.password,
+      check.password
+    );
+    if (isPasswordMatch) {
+      alert("You have logged in!");
+      res.redirect("/");
+    } else {
+      req.send("Wrong password");
+    }
+  } catch {
+    res.send("Wrong details");
+  }
 });
 
-module.exports = app;
+module.exports = router;

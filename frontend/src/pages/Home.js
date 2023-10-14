@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import Topics from "../components/Topics";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   return (

@@ -14,10 +14,7 @@ function Register() {
       setErrorMessage("Please fill in all fields.");
       return;
     }
-
-    // Send a POST request to server's /register route with the form data
     const response = await fetch("http://localhost:3001/register", {
-      // Same port/route in backend api.js
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,9 +28,17 @@ function Register() {
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/login"); // Redirect to the login page after successful registration
+      navigate("/login");
     } else {
-      setErrorMessage("Error saving data. Please try again.");
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        setErrorMessage(data.message);
+      } else {
+        // Handle non-JSON error response
+        const text = await response.text();
+        setErrorMessage(text);
+      }
     }
   };
 

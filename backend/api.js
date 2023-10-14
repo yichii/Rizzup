@@ -4,16 +4,17 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
-const User = require("./models/Users");
 const bcrypt = require("bcrypt");
+const User = require("./models/Users");
+// const appRoutes = require("./app");
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3001; // Port 3001
 
 // Middleware
-app.use(express.static(path.join(__dirname, "frontend"))); // Optional I think
+app.use(express.static(path.join(__dirname, "frontend")));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
@@ -38,63 +39,72 @@ db.once("open", () => {
 });
 
 // Routes
-
-app.get("/register", function (req, res) {
-  res.sendFile(path.join(__dirname, "frontend", "src", "Register.js"));
+// app.use("/", appRoutes);
+app.get("/", function (req, res) {
+  const filePath = path.join(__dirname, "../frontend/src/pages/Home.js"); // Update the path accordingly
+  res.sendFile(filePath);
 });
 
 app.get("/login", function (req, res) {
-  res.sendFile(path.join(__dirname, "frontend", "src", "Login.js"));
+  const filePath = path.join(__dirname, "../frontend/src/Login.js");
+  res.sendFile(filePath);
 });
-// Renders html/js file in frontend
 
-app.post("/register", async (req, res) => {
+app.get("/register", function (req, res) {
+  const filePath = path.join(__dirname, "../frontend/src/Register.js");
+  res.sendFile(filePath);
+});
+
+app.post("/register", async (req, res, next) => {
   try {
     const newUser = new User({
       username: req.body.username,
       password: req.body.password,
       email: req.body.email,
     });
-    const existingUser = await User.findOne({
-      username: newUser.username,
-    });
+    const existingUser = await User.findOne({ username: req.body.username });
     if (existingUser) {
-      res.send("User already exists. Please choose a different name");
-    } else {
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
-      newUser.password = hashedPassword;
-      const result = await User.insertMany(newUser);
-      console.log("User saved:", result);
+      return res
+        .status(400)
+        .send("User already exists. Please choose a different name");
     }
-
-    res.redirect("/register");
+    // const saltRounds = 10;
+    // const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
+    // newUser.password = hashedPassword;
+    const result = await newUser.save();
+    console.log("User saved:", result);
+    res.status(201).send("User registered successfully");
   } catch (error) {
     console.error("Error saving user:", error);
-    res.status(500).send("Something went wrong");
+    next(error);
   }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", async (req, res, next) => {
   try {
-    const check = await User.findOne({ username: req.body.username });
-    if (!check) {
-      res.send("username cannot be found");
-    }
-    const isPasswordMatch = await bcrypt.compare(
-      req.body.password,
-      check.password
-    );
-    if (isPasswordMatch) {
-      res.render("/");
+    const user = await User.findOne({ username: req.body.username });
+    const pass = await User.findOne({ password: req.body.password });
+    if (!user || !pass) {
+      return res.status(400).send("Username or password is incorrect");
     } else {
-      req.send("wrong password");
+      res.redirect("/");
     }
-  } catch {
-    res.send("wrong details");
+    // const isPasswordMatch = await bcrypt.compare(
+    //   req.body.password,
+    //   user.password
+    // );
+    // if (isPasswordMatch) {
+    //   return res.redirect("/");
+    // }
+    // } else {
+    //   return res.status(400).send("Wrong password");
+    // }
+  } catch (error) {
+    next(error);
   }
 });
-//Error handler
+
+// Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
