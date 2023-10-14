@@ -41,7 +41,7 @@ db.once("open", () => {
 // Routes
 // app.use("/", appRoutes);
 app.get("/", function (req, res) {
-  const filePath = path.join(__dirname, "../frontend/src/pages/Home.js"); // Update the path accordingly
+  const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
 
