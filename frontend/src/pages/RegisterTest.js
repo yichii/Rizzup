@@ -14,10 +14,7 @@ function Register() {
       setErrorMessage("Please fill in all fields.");
       return;
     }
-
-    // Send a POST request to server's /register route with the form data
     const response = await fetch("http://localhost:3001/register", {
-      // Same port/route in backend api.js
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,36 +28,61 @@ function Register() {
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/"); // Redirect to the login page after successful registration
+      navigate("/login");
     } else {
-      setErrorMessage("Error saving data. Please try again.");
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        setErrorMessage(data.message);
+      } else {
+        // Handle non-JSON error response
+        const text = await response.text();
+        setErrorMessage(text);
+      }
     }
   };
 
   return (
     <>
-      <h1>This is Rizz</h1>
-      <form onSubmit={handleOnSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button type="submit">Submit</button>
-      </form>
+      <div className="form-container">
+        <h1>Registration</h1>
+        <form onSubmit={handleOnSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          <button type="submit">Register</button>
+        </form>
+        <p>
+          Have an account already?<a href="/login">Login</a>
+        </p>
+      </div>
       {errorMessage && <p className="error">{errorMessage}</p>}
     </>
   );

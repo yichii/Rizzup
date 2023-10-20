@@ -14,15 +14,10 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
-    topic: {
-      type: mongoose.Types.ObjectId,
-      ref: "Topic",
-    },
-    sukoCount: Number,
     edited: Boolean,
     commentCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = postSchema;
