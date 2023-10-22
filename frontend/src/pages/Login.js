@@ -17,7 +17,7 @@ const Login = () => {
 
   const handleSubmitClick = async (e) => {
     e.preventDefault();
-    const res = await fetch(API_URL + "users/login/", {
+    const res = await fetch(process.env.API_URL + "users/login/", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
@@ -110,4 +110,4 @@ const Login = () => {
 };
 
 
-// export default Login;
+export default Login;
