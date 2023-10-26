@@ -68,14 +68,14 @@ app.get("/register", function (req, res) {
   res.sendFile(filePath);
 });
 
-app.get("/getUsername", (req, res) => {
-  if (req.session.userId) {
-    const username = req.session.username;
-    res.status(200).json({ username });
-  } else {
-    res.status(401).json({ message: "User is not authenticated" });
-  }
-});
+// app.get("/getUsername", (req, res) => {
+//   if (req.session.userId) {
+//     const username = req.session.username;
+//     res.status(200).json({ username });
+//   } else {
+//     res.status(401).json({ message: "User is not authenticated" });
+//   }
+// });
 
 // app.get("/posts/:userId", async (req, res, next) => {
 //   try {
@@ -155,6 +155,7 @@ app.post("/home", async (req, res, next) => {
   try {
     const userId = req.session.userId;
     const content = req.body.content;
+    console.log("Received POST request with content:", content);
 
     if (!userId) {
       res.redirect("/login");
@@ -166,7 +167,7 @@ app.post("/home", async (req, res, next) => {
     });
 
     await newPost.save();
-
+    console.log("Post created successfully");
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
