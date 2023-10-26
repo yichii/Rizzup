@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
 import Topics from "../components/Topics";
 
 const HomePage = () => {
   const [post, setPost] = useState("");
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    async function fetchUsername() {
+      try {
+        const response = await fetch("http://localhost:3001/getUsername", {
+          method: "GET",
+          credentials: "include", // Include credentials (cookies) in the request
+        });
+
+        if (response.status === 200) {
+          const data = await response.json();
+          setUsername(data.username);
+        } else {
+          console.error("Failed to fetch the username");
+        }
+      } catch (error) {
+        console.error("Error fetching the username:", error);
+      }
+    }
+
+    fetchUsername();
+  }, []);
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +60,7 @@ const HomePage = () => {
           Topics
         </h2>
         <div className="form-container">
-          <h1>Post</h1>
+          <h1>Post as {username}</h1>
           <form onSubmit={handlePostSubmit}>
             <div className="form-group">
               <input

@@ -68,6 +68,15 @@ app.get("/register", function (req, res) {
   res.sendFile(filePath);
 });
 
+app.get("/getUsername", (req, res) => {
+  if (req.session.userId) {
+    const username = req.session.username;
+    res.status(200).json({ username });
+  } else {
+    res.status(401).json({ message: "User is not authenticated" });
+  }
+});
+
 // app.get("/posts/:userId", async (req, res, next) => {
 //   try {
 //     const userId = req.params.userId;
@@ -114,6 +123,7 @@ app.post("/login", async (req, res, next) => {
       return res.status(400).send("Username or password is incorrect");
     } else {
       req.session.userId = user._id;
+      req.session.username = user.username;
       console.log(req.session.userId); //d ebug
       res.redirect("/home");
     }
@@ -147,7 +157,7 @@ app.post("/home", async (req, res, next) => {
     const content = req.body.content;
 
     if (!userId) {
-      res.render("/login");
+      res.redirect("/login");
     }
 
     const newPost = new Post({
