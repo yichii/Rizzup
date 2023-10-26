@@ -6,6 +6,8 @@ const path = require("path");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const User = require("./models/Users");
+const Post = require("./models/Post");
+const session = require("express-session");
 // const appRoutes = require("./app");
 
 dotenv.config();
@@ -19,6 +21,16 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.use(
+  session({
+    secret: "key", // Use a strong, secret key for session data encryption
+    resave: false, // Don't save session data on every request
+    saveUninitialized: false, // Don't save empty sessions
+    cookie: {
+      maxAge: 3600000, // Session expiration time (1 hour in milliseconds)
+    },
+  })
+);
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -40,7 +52,8 @@ db.once("open", () => {
 
 // Routes
 // app.use("/", appRoutes);
-app.get("/", function (req, res) {
+
+app.get("/home", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
@@ -54,6 +67,19 @@ app.get("/register", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Register.js");
   res.sendFile(filePath);
 });
+
+// app.get("/posts/:userId", async (req, res, next) => {
+//   try {
+//     const userId = req.params.userId;
+
+//     const posts = await Post.find({ user: userId });
+
+//     res.json(posts);
+//   } catch (error) {
+//     console.error("Error retrieving posts:", error);
+//     next(error);
+//   }
+// });
 
 app.post("/register", async (req, res, next) => {
   try {
@@ -87,7 +113,9 @@ app.post("/login", async (req, res, next) => {
     if (!user || !pass) {
       return res.status(400).send("Username or password is incorrect");
     } else {
-      res.redirect("/");
+      req.session.userId = user._id;
+      console.log(req.session.userId); //d ebug
+      res.redirect("/home");
     }
     // const isPasswordMatch = await bcrypt.compare(
     //   req.body.password,
@@ -95,7 +123,7 @@ app.post("/login", async (req, res, next) => {
     // );
     // if (isPasswordMatch) {
     //   return res.redirect("/");
-    // }
+    // }h
     // } else {
     //   return res.status(400).send("Wrong password");
     // }
@@ -104,13 +132,58 @@ app.post("/login", async (req, res, next) => {
   }
 });
 
+// const authenticateUser = (req, res, next) => {
+//   if (!req.session.userId) {
+//     return res.status(401).send("Unauthorized");
+//   } else {
+//     res.render("/home");
+//   }
+//   next();
+// };
+
+app.post("/home", async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    const content = req.body.content;
+
+    if (!userId) {
+      res.render("/login");
+    }
+
+    const newPost = new Post({
+      content,
+      user: userId,
+    });
+
+    await newPost.save();
+
+    res.status(201).send("Post created successfully");
+  } catch (error) {
+    console.error("Error creating post:", error);
+    next(error);
+  }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+    }
+    res.redirect("/login"); // Redirect to the login page or another suitable page
+  });
+});
+
 // Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // Render the error page
-  res.status(err.status || 500);
+  res.status(err.status || 500).json({
+    title: "Error Page",
+    message: err.message,
+    error: err,
+  });
   res.json({
     title: "Error Page",
     message: err.message,

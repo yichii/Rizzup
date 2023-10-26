@@ -11,13 +11,20 @@ const postSchema = new mongoose.Schema(
       maxLength: [8000, "Must be no more than 8000 characters"],
     },
     author: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    edited: Boolean,
-    commentCount: { type: Number, default: 0 },
+    edited: {
+      type: Boolean,
+      default: false,
+    },
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
+const Post = mongoose.model("Post", postSchema);
 
-module.exports = postSchema;
+module.exports = Post;

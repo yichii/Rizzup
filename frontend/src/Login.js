@@ -28,7 +28,7 @@ function Login() {
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/");
+      navigate("/home");
     } else {
       setErrorMessage(
         "Error incorrect user or password data. Please try again."

@@ -1,9 +1,31 @@
 import React, { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import Topics from "../components/Topics";
-import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const [post, setPost] = useState("");
+
+  const handlePostSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3001/home", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: post }),
+      });
+
+      if (response.status === 201) {
+        setPost("");
+      } else {
+        console.error("Failed to create a post");
+      }
+    } catch (error) {
+      console.error("Error creating a post:", error);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -16,14 +38,19 @@ const HomePage = () => {
         </h2>
         <div className="form-container">
           <h1>Post</h1>
-          <div className="form-group">
-            <input
-              type="text"
-              placeholder="Post"
-              id="post"
-              style={{ width: "100%" }}
-            />
-          </div>
+          <form onSubmit={handlePostSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Post"
+                id="post"
+                style={{ width: "100%" }}
+                value={post}
+                onChange={(e) => setPost(e.target.value)}
+              />
+            </div>
+            <button type="submit">Submit post</button>
+          </form>
           <div className="row">
             <div className="col-sm-7">
               <Topics />
