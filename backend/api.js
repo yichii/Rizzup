@@ -159,6 +159,7 @@ app.post("/home", async (req, res, next) => {
 
     if (!userId) {
       res.redirect("/login");
+      return;
     }
 
     const newPost = new Post({
@@ -167,11 +168,10 @@ app.post("/home", async (req, res, next) => {
     });
 
     await newPost.save();
-    console.log("Post created successfully");
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
-    next(error);
+    res.status(500).send("Error creating a post");
   }
 });
 
