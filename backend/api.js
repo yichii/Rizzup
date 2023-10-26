@@ -159,7 +159,6 @@ app.post("/home", async (req, res, next) => {
 
     if (!userId) {
       res.redirect("/login");
-      return;
     }
 
     const newPost = new Post({
