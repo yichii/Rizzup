@@ -19,8 +19,6 @@ const HomePage = () => {
 
       if (response.status === 201) {
         setPost("");
-      } else {
-        console.error("Failed to create a post");
       }
     } catch (error) {
       console.error("Error creating a post:", error);

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const User = require(__dirname + "/Users.js");
 
 const postSchema = new mongoose.Schema(
   {
@@ -13,7 +12,7 @@ const postSchema = new mongoose.Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Users",
     },
     edited: {
       type: Boolean,
