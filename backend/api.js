@@ -157,10 +157,6 @@ app.post("/home", async (req, res, next) => {
     const content = req.body.content;
     console.log("Received POST request with content:", content);
 
-    if (!userId) {
-      res.redirect("/login");
-    }
-
     const newPost = new Post({
       content,
       user: userId,
