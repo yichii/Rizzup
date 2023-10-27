@@ -7,7 +7,9 @@ const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const User = require("./models/Users");
 const Post = require("./models/Post");
-const session = require("express-session");
+const jwt = require("jsonwebtoken");
+const authenticateToken = require("./authMiddleware");
+
 // const appRoutes = require("./app");
 
 dotenv.config();
@@ -21,16 +23,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-app.use(
-  session({
-    secret: "key", // Use a strong, secret key for session data encryption
-    resave: false, // Don't save session data on every request
-    saveUninitialized: false, // Don't save empty sessions
-    cookie: {
-      maxAge: 3600000, // Session expiration time (1 hour in milliseconds)
-    },
-  })
-);
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -68,15 +60,6 @@ app.get("/register", function (req, res) {
   res.sendFile(filePath);
 });
 
-// app.get("/getUsername", (req, res) => {
-//   if (req.session.userId) {
-//     const username = req.session.username;
-//     res.status(200).json({ username });
-//   } else {
-//     res.status(401).json({ message: "User is not authenticated" });
-//   }
-// });
-
 // app.get("/posts/:userId", async (req, res, next) => {
 //   try {
 //     const userId = req.params.userId;
@@ -103,9 +86,6 @@ app.post("/register", async (req, res, next) => {
         .status(400)
         .send("User already exists. Please choose a different name");
     }
-    // const saltRounds = 10;
-    // const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
-    // newUser.password = hashedPassword;
     const result = await newUser.save();
     console.log("User saved:", result);
     res.status(201).send("User registered successfully");
@@ -122,38 +102,20 @@ app.post("/login", async (req, res, next) => {
     if (!user || !pass) {
       return res.status(400).send("Username or password is incorrect");
     } else {
-      req.session.userId = user._id;
-      req.session.username = user.username;
-      console.log(req.session.userId); //d ebug
-      res.redirect("/home");
+      const token = jwt.sign({ username: user.username }, "key", {
+        expiresIn: "1h",
+      });
+
+      res.json({ token });
     }
-    // const isPasswordMatch = await bcrypt.compare(
-    //   req.body.password,
-    //   user.password
-    // );
-    // if (isPasswordMatch) {
-    //   return res.redirect("/");
-    // }h
-    // } else {
-    //   return res.status(400).send("Wrong password");
-    // }
   } catch (error) {
     next(error);
   }
 });
 
-// const authenticateUser = (req, res, next) => {
-//   if (!req.session.userId) {
-//     return res.status(401).send("Unauthorized");
-//   } else {
-//     res.render("/home");
-//   }
-//   next();
-// };
-
-app.post("/home", async (req, res, next) => {
+app.post("/home", authenticateToken, async (req, res, next) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.user._id;
     const content = req.body.content;
     console.log("Received POST request with content:", content);
 
@@ -168,15 +130,6 @@ app.post("/home", async (req, res, next) => {
     console.error("Error creating post:", error);
     res.status(500).send("Error creating a post");
   }
-});
-
-app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error("Error destroying session:", err);
-    }
-    res.redirect("/login"); // Redirect to the login page or another suitable page
-  });
 });
 
 // Error handler

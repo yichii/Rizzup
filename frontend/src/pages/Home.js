@@ -9,10 +9,13 @@ const HomePage = () => {
     e.preventDefault();
     console.log("Post content:", post);
     try {
+      const token = localStorage.getItem("token");
+      localStorage.setItem("token", token);
       const response = await fetch("http://localhost:3001/home", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ content: post }),
       });
