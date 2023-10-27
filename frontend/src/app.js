@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./Login";
+import Register from "./Register";
 import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
