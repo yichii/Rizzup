@@ -8,7 +8,6 @@ const bcrypt = require("bcrypt");
 const User = require("./models/Users");
 const Post = require("./models/Post");
 const jwt = require("jsonwebtoken");
-const authenticateToken = require("./authMiddleware");
 
 // const appRoutes = require("./app");
 
@@ -23,6 +22,33 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+const verifyToken = (req, res, next) => {
+  const authorizationHeader = req.header("Authorization");
+
+  if (!authorizationHeader) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const tokenParts = authorizationHeader.split(" ");
+  if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
+    return res.status(401).json({ message: "Invalid token format" });
+  }
+
+  const token = tokenParts[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+// Apply this middleware to protected routes
+app.use("/home", verifyToken);
+// Add more routes that require authentication as needed.
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -45,7 +71,7 @@ db.once("open", () => {
 // Routes
 // app.use("/", appRoutes);
 
-app.get("/home", function (req, res) {
+app.get("/home", verifyToken, function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
@@ -102,10 +128,9 @@ app.post("/login", async (req, res, next) => {
     if (!user || !pass) {
       return res.status(400).send("Username or password is incorrect");
     } else {
-      const token = jwt.sign({ username: user.username }, "key", {
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-
       res.json({ token });
     }
   } catch (error) {
@@ -113,7 +138,7 @@ app.post("/login", async (req, res, next) => {
   }
 });
 
-app.post("/home", authenticateToken, async (req, res, next) => {
+app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
     const content = req.body.content;
@@ -134,19 +159,10 @@ app.post("/home", authenticateToken, async (req, res, next) => {
 
 // Error handler
 app.use(function (err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // Render the error page
   res.status(err.status || 500).json({
     title: "Error Page",
     message: err.message,
-    error: err,
-  });
-  res.json({
-    title: "Error Page",
-    message: err.message,
-    error: err,
+    error: req.app.get("env") === "development" ? err : {},
   });
 });
 

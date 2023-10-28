@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import Topics from "../components/Topics";
+import axios from "axios";
 
 const HomePage = () => {
   const [post, setPost] = useState("");
@@ -10,15 +11,16 @@ const HomePage = () => {
     console.log("Post content:", post);
     try {
       const token = localStorage.getItem("token");
-      localStorage.setItem("token", token);
-      const response = await fetch("http://localhost:3001/home", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ content: post }),
-      });
+      const response = await axios.post(
+        "http://localhost:3001/home",
+        { content: post },
+        {
+          headers: {
+            "Content-Type": "application/json", // `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 201) {
         setPost("");
