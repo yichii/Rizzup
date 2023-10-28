@@ -85,6 +85,16 @@ app.get("/register", function (req, res) {
   res.sendFile(filePath);
 });
 
+app.get("/posts", async (req, res, next) => {
+  try {
+    const posts = await Post.find().populate("author");
+    res.json(posts);
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    next(error);
+  }
+});
+
 // app.get("/posts/:userId", async (req, res, next) => {
 //   try {
 //     const userId = req.params.userId;
