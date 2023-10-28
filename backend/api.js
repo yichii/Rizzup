@@ -150,6 +150,7 @@ app.post("/home", verifyToken, async (req, res, next) => {
     });
 
     await newPost.save();
+
     res.status(201).send("Post created successfully");
   } catch (error) {
     console.error("Error creating post:", error);
