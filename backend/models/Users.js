@@ -17,7 +17,10 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
     email: { type: String, required: true, unique: true },
-    posts: [postSchema],
+    postCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

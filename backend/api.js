@@ -146,7 +146,7 @@ app.post("/home", verifyToken, async (req, res, next) => {
 
     const newPost = new Post({
       content,
-      user: userId,
+      author: userId,
     });
 
     await newPost.save();

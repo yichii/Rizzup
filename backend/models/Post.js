@@ -9,6 +9,7 @@ const postSchema = new mongoose.Schema(
     content: {
       type: String,
       maxLength: [8000, "Must be no more than 8000 characters"],
+      minLength: [1, "Must be more than 0 characters"],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

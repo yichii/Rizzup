@@ -16,7 +16,7 @@ const HomePage = () => {
         { content: post },
         {
           headers: {
-            "Content-Type": "application/json", // `Bearer ${token}`
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
