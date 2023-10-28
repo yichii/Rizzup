@@ -79,6 +79,11 @@ db.once("open", () => {
 //     next(error);
 //   }
 // });
+app.get("/posts", (req, res) => {
+  Post.find()
+    .then((Post) => res.json(Post))
+    .catch((err) => res.json(err));
+});
 
 app.get("/home", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
 import Topics from "../components/Topics";
 import axios from "axios";
 
 const HomePage = () => {
   const [post, setPost] = useState("");
+  const [posts, setPosts] = useState([]);
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +30,17 @@ const HomePage = () => {
       console.error("Error creating a post:", error);
     }
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/posts")
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
 
   return (
     <div>
@@ -55,6 +67,16 @@ const HomePage = () => {
             </div>
             <button type="submit">Submit post</button>
           </form>
+          <div>
+            {posts.map((post) => (
+              <div key={post._id}>
+                <h3>{post.title}</h3>
+                <p>Content: {post.content}</p>
+                <p>Author: {post.author}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="row">
             <div className="col-sm-7">
               <Topics />
