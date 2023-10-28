@@ -80,28 +80,3 @@
 // };
 
 // export default Posts;
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-function PostList() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    axios.get("/posts").then((response) => {
-      setPosts(response.data);
-    });
-  }, []);
-
-  return (
-    <div>
-      {posts.map((post) => (
-        <div key={post._id}>
-          <p>{post.content}</p>
-          <p>Author: {post.author.username}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-export default PostList;

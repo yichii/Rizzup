@@ -70,7 +70,17 @@ db.once("open", () => {
 // Routes
 // app.use("/", appRoutes);
 
-app.get("/home", verifyToken, function (req, res) {
+// app.get("/posts", async (req, res, next) => {
+//   try {
+//     const posts = await Post.find();
+//     res.json(posts);
+//   } catch (error) {
+//     console.error("Error retrieving posts:", error);
+//     next(error);
+//   }
+// });
+
+app.get("/home", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
@@ -83,16 +93,6 @@ app.get("/login", function (req, res) {
 app.get("/register", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Register.js");
   res.sendFile(filePath);
-});
-
-app.get("/posts", async (req, res, next) => {
-  try {
-    const posts = await Post.find().populate("author");
-    res.json(posts);
-  } catch (error) {
-    console.error("Error retrieving posts:", error);
-    next(error);
-  }
 });
 
 // app.get("/posts/:userId", async (req, res, next) => {
