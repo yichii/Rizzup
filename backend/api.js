@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
-const bcrypt = require("bcrypt");
 const User = require("./models/Users");
 const Post = require("./models/Post");
 const jwt = require("jsonwebtoken");
@@ -47,7 +46,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Apply this middleware to protected routes
-app.use("/home", verifyToken);
+// app.use("/home", verifyToken);
 // Add more routes that require authentication as needed.
 
 const corsOptions = {
@@ -151,7 +150,25 @@ app.post("/home", verifyToken, async (req, res, next) => {
 
     await newPost.save();
 
-    res.status(201).send("Post created successfully");
+    User.findOneAndUpdate(
+      { _id: userId },
+      { $inc: { postCount: 1 } },
+      { new: true }
+    )
+      .exec()
+      .then((user) => {
+        if (!user) {
+          console.error("User not found");
+          res.status(500).send("Error incrementing postCount");
+        } else {
+          console.log("Post added to user and postCount incremented");
+          res.status(201).send("Post created and added to user successfully");
+        }
+      })
+      .catch((err) => {
+        console.error("Error incrementing postCount:", err);
+        res.status(500).send("Error incrementing postCount");
+      });
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).send("Error creating a post");
