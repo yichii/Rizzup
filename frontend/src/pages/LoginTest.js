@@ -25,10 +25,13 @@ function Login() {
     });
 
     if (response.ok) {
+      const data = await response.json();
+      const token = data.token;
+      localStorage.setItem("token", token);
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/");
+      navigate("/home");
     } else {
       setErrorMessage(
         "Error incorrect user or password data. Please try again."

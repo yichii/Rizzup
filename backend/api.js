@@ -4,8 +4,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
-const bcrypt = require("bcrypt");
 const User = require("./models/Users");
+const Post = require("./models/Post");
+const jwt = require("jsonwebtoken");
+
 // const appRoutes = require("./app");
 
 dotenv.config();
@@ -19,6 +21,33 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+const verifyToken = (req, res, next) => {
+  const authorizationHeader = req.header("Authorization");
+
+  if (!authorizationHeader) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const tokenParts = authorizationHeader.split(" ");
+  if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
+    return res.status(401).json({ message: "Invalid token format" });
+  }
+
+  const token = tokenParts[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+// Apply this middleware to protected routes
+// app.use("/home", verifyToken);
+// Add more routes that require authentication as needed.
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -40,7 +69,23 @@ db.once("open", () => {
 
 // Routes
 // app.use("/", appRoutes);
-app.get("/", function (req, res) {
+
+// app.get("/posts", async (req, res, next) => {
+//   try {
+//     const posts = await Post.find();
+//     res.json(posts);
+//   } catch (error) {
+//     console.error("Error retrieving posts:", error);
+//     next(error);
+//   }
+// });
+app.get("/posts", (req, res) => {
+  Post.find()
+    .then((Post) => res.json(Post))
+    .catch((err) => res.json(err));
+});
+
+app.get("/home", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
@@ -55,6 +100,19 @@ app.get("/register", function (req, res) {
   res.sendFile(filePath);
 });
 
+// app.get("/posts/:userId", async (req, res, next) => {
+//   try {
+//     const userId = req.params.userId;
+
+//     const posts = await Post.find({ user: userId });
+
+//     res.json(posts);
+//   } catch (error) {
+//     console.error("Error retrieving posts:", error);
+//     next(error);
+//   }
+// });
+
 app.post("/register", async (req, res, next) => {
   try {
     const newUser = new User({
@@ -68,9 +126,6 @@ app.post("/register", async (req, res, next) => {
         .status(400)
         .send("User already exists. Please choose a different name");
     }
-    // const saltRounds = 10;
-    // const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
-    // newUser.password = hashedPassword;
     const result = await newUser.save();
     console.log("User saved:", result);
     res.status(201).send("User registered successfully");
@@ -87,34 +142,60 @@ app.post("/login", async (req, res, next) => {
     if (!user || !pass) {
       return res.status(400).send("Username or password is incorrect");
     } else {
-      res.redirect("/");
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.json({ token });
     }
-    // const isPasswordMatch = await bcrypt.compare(
-    //   req.body.password,
-    //   user.password
-    // );
-    // if (isPasswordMatch) {
-    //   return res.redirect("/");
-    // }
-    // } else {
-    //   return res.status(400).send("Wrong password");
-    // }
   } catch (error) {
     next(error);
   }
 });
 
+app.post("/home", verifyToken, async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const content = req.body.content;
+    console.log("Received POST request with content:", content);
+
+    const newPost = new Post({
+      content,
+      author: userId,
+    });
+
+    await newPost.save();
+
+    User.findOneAndUpdate(
+      { _id: userId },
+      { $inc: { postCount: 1 } },
+      { new: true }
+    )
+      .exec()
+      .then((user) => {
+        if (!user) {
+          console.error("User not found");
+          res.status(500).send("Error incrementing postCount");
+        } else {
+          console.log("Post added to user and postCount incremented");
+          res.status(201).send("Post created and added to user successfully");
+        }
+      })
+      .catch((err) => {
+        console.error("Error incrementing postCount:", err);
+        res.status(500).send("Error incrementing postCount");
+      });
+  } catch (error) {
+    console.error("Error creating post:", error);
+    res.status(500).send("Error creating a post");
+  }
+});
+
 // Error handler
 app.use(function (err, req, res, next) {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // Render the error page
-  res.status(err.status || 500);
-  res.json({
+  res.status(err.status || 500).json({
     title: "Error Page",
     message: err.message,
-    error: err,
+    error: req.app.get("env") === "development" ? err : {},
   });
 });
 

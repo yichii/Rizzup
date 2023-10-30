@@ -33,10 +33,3 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
-*.zip
-.DS_Store
-.idea
-notes.md
-.variables.env
-.env
-*.pdf

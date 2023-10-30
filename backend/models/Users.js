@@ -1,5 +1,5 @@
 // Define User Schema and Model
-const postSchema = require("./Post");
+var postSchema = require(__dirname + "/Post.js").schema;
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
@@ -17,7 +17,10 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
     email: { type: String, required: true, unique: true },
-    posts: [postSchema],
+    postCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
