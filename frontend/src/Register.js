@@ -1,53 +1,57 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    if (!username || !password || !email) {
       setErrorMessage("Please fill in all fields.");
       return;
     }
-
-    // Send a POST request to server's /login route with the form data
-    const response = await fetch("http://localhost:3001/login", {
-      // Same port/route in backend api.js
+    const response = await fetch("http://localhost:3001/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, email }),
     });
 
     if (response.ok) {
-      const data = await response.json();
-      const token = data.token;
-      localStorage.setItem("token", token);
+      alert("Data saved successfully");
+      setEmail("");
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/home");
+      navigate("/login");
     } else {
-      setErrorMessage(
-        "Error incorrect user or password data. Please try again."
-      );
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        setErrorMessage(data.message);
+      } else {
+        // Handle non-JSON error response
+        const text = await response.text();
+        setErrorMessage(text);
+      }
     }
   };
+
   return (
     <>
       <div className="form-container">
-        <h1>Login</h1>
+        <h1>Registration</h1>
         <form onSubmit={handleOnSubmit}>
           <div className="form-group">
             <input
               type="text"
-              placeholder="Username"
               id="username"
+              placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="off"
@@ -56,21 +60,32 @@ function Login() {
           <div className="form-group">
             <input
               type="password"
-              placeholder="********"
               id="password"
+              placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="off"
             />
           </div>
-          <button type="submit">Login</button>
+          <div className="form-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
+            />
+          </div>
+          <button type="submit">Register</button>
         </form>
         <p>
-          Don't have an account?<a href="/register">Register</a>
+          Have an account already?<a href="/login">Login</a>
         </p>
       </div>
       {errorMessage && <p className="error">{errorMessage}</p>}
     </>
   );
 }
-export default Login;
+
+export default Register;
