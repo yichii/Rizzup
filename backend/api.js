@@ -79,6 +79,10 @@ db.once("open", () => {
 //     next(error);
 //   }
 // });
+app.get("/:postId/comment", async (req, res, next) => {});
+
+app.get("/:postId/comments", async (req, res, next) => {});
+
 app.get("/posts", async (req, res, next) => {
   try {
     const posts = await Post.find().populate("author", "username");
