@@ -79,10 +79,14 @@ db.once("open", () => {
 //     next(error);
 //   }
 // });
-app.get("/posts", (req, res) => {
-  Post.find()
-    .then((Post) => res.json(Post))
-    .catch((err) => res.json(err));
+app.get("/posts", async (req, res, next) => {
+  try {
+    const posts = await Post.find().populate("author", "username");
+    res.json(posts);
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    next(error);
+  }
 });
 
 app.get("/home", function (req, res) {

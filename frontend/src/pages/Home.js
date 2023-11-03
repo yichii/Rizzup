@@ -72,7 +72,7 @@ const HomePage = () => {
               <div key={post._id}>
                 <h3>{post.title}</h3>
                 <p>Content: {post.content}</p>
-                <p>Author: {post.author}</p>
+                <p>Author: {post.author.username}</p>
               </div>
             ))}
           </div>
