@@ -32,14 +32,14 @@ const HomePage = () => {
     }
   };
 
-  const handleCommentSubmit = async (e, postId, commentText) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.post(
-        `http://localhost:3001/posts/${postId}/comments`,
-        { text: commentText },
+        `http://localhost:3001/home`,
+        { content: comment },
         {
           headers: {
             "Content-Type": "application/json",
@@ -66,6 +66,34 @@ const HomePage = () => {
         console.error("Error fetching posts:", error);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/posts")
+      .then((response) => {
+        setPosts(response.data);
+
+        response.data.forEach((post) => {
+          axios
+            .get(`http://localhost:3001/posts/${post._id}/comments`)
+            .then((commentsResponse) => {
+              const updatedPosts = posts.map((p) => {
+                if (p._id === post._id) {
+                  return { ...p, comments: commentsResponse.data };
+                }
+                return p;
+              });
+              setPosts(updatedPosts);
+            })
+            .catch((error) => {
+              console.error("Error fetching comments:", error);
+            });
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, [posts]);
 
   return (
     <div>
@@ -99,20 +127,19 @@ const HomePage = () => {
                 <p>Content: {post.content}</p>
                 <p>Author: {post.author.username}</p>
                 <div>
-                  {post.comments.map((comment) => (
+                  {/* {post.comments.map((comment) => (
                     <div key={comment._id}>
-                      <p>Comment: {comment.text}</p>
+                      <p>Comment: {comment.content}</p>
                       <p>Comment Author: {comment.author.username}</p>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
-                <form
-                  onSubmit={(e) => handleCommentSubmit(e, post._id, comment)}
-                >
+                <form onSubmit={handleCommentSubmit}>
                   <div className="form-group">
                     <input
                       type="text"
                       placeholder="Add a comment"
+                      id="comment"
                       style={{ width: "100%" }}
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}

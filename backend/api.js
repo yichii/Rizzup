@@ -6,6 +6,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const User = require("./models/Users");
 const Post = require("./models/Post");
+const Comment = require("./models/Comment");
 const jwt = require("jsonwebtoken");
 
 // const appRoutes = require("./app");
@@ -79,9 +80,18 @@ db.once("open", () => {
 //     next(error);
 //   }
 // });
-app.get("/:postId/comment", async (req, res, next) => {});
+// app.get("/:postId/comment", async (req, res, next) => {});
 
-app.get("/:postId/comments", async (req, res, next) => {});
+// app.get("/posts/:postId/comments", async (req, res, next) => {
+//   try {
+//     const postId = req.params.postId;
+//     const comments = await Comment.find({ postId });
+//     res.json(comments);
+//   } catch (error) {
+//     console.error("Error fetching comments:", error);
+//     res.status(500).json({ message: "Error fetching comments" });
+//   }
+// });
 
 app.get("/posts", async (req, res, next) => {
   try {
@@ -118,6 +128,19 @@ app.get("/register", function (req, res) {
 //   } catch (error) {
 //     console.error("Error retrieving posts:", error);
 //     next(error);
+//   }
+// });
+
+// app.post("/posts/:postId/comments", verifyToken, async (req, res, next) => {
+//   try {
+//     const postId = req.params.postId;
+//     const commentText = req.body.comment;
+//     const userId = req.user._id;
+
+//     res.status(201).json({ message: "Comment created successfully" });
+//   } catch (error) {
+//     console.error("Error creating a comment:", error);
+//     res.status(500).json({ message: "Error creating a comment" });
 //   }
 // });
 
@@ -164,10 +187,16 @@ app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
     const content = req.body.content;
+    const comment = req.body.comment;
     console.log("Received POST request with content:", content);
 
     const newPost = new Post({
       content,
+      author: userId,
+    });
+
+    const newComment = new Comment({
+      comment,
       author: userId,
     });
 
