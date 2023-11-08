@@ -7,20 +7,22 @@ const commentSchema = new mongoose.Schema(
       maxLength: [5000, "Comment should not exceed 5000 characters"],
     },
     author: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    post: {
-      type: mongoose.Types.ObjectId,
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
+      required: true,
     },
     repliedTo: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
     },
     edited: Boolean,
   },
   { timestamps: true }
 );
+const Comment = mongoose.model("Comment", commentSchema);
 
-module.exports = mongoose.model("Comment", commentSchema);
+module.exports = Comment;
