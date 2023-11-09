@@ -133,7 +133,6 @@ const HomePage = () => {
                 <h3>{post.title}</h3>
                 <p>Content: {post.content}</p>
                 <p>Author: {post.author.username}</p>
-                <p>ID: {post._id}</p>
                 <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
                   <div className="form-group">
                     <input
