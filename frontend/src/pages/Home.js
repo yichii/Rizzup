@@ -15,7 +15,7 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3001/home",
-        { content: post },
+        { content: post, type: "post" },
         {
           headers: {
             "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const HomePage = () => {
     try {
       const response = await axios.post(
         `http://localhost:3001/home`,
-        { content: comment },
+        { content: comment, type: "comment" },
         {
           headers: {
             "Content-Type": "application/json",
@@ -67,33 +67,33 @@ const HomePage = () => {
       });
   }, []);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/posts")
-      .then((response) => {
-        setPosts(response.data);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3001/posts")
+  //     .then((response) => {
+  //       setPosts(response.data);
 
-        response.data.forEach((post) => {
-          axios
-            .get(`http://localhost:3001/posts/${post._id}/comments`)
-            .then((commentsResponse) => {
-              const updatedPosts = posts.map((p) => {
-                if (p._id === post._id) {
-                  return { ...p, comments: commentsResponse.data };
-                }
-                return p;
-              });
-              setPosts(updatedPosts);
-            })
-            .catch((error) => {
-              console.error("Error fetching comments:", error);
-            });
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  }, [posts]);
+  //       response.data.forEach((post) => {
+  //         axios
+  //           .get(`http://localhost:3001/posts/${post._id}/comments`)
+  //           .then((commentsResponse) => {
+  //             const updatedPosts = posts.map((p) => {
+  //               if (p._id === post._id) {
+  //                 return { ...p, comments: commentsResponse.data };
+  //               }
+  //               return p;
+  //             });
+  //             setPosts(updatedPosts);
+  //           })
+  //           .catch((error) => {
+  //             console.error("Error fetching comments:", error);
+  //           });
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching posts:", error);
+  //     });
+  // }, [posts]);
 
   return (
     <div>

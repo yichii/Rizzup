@@ -187,40 +187,49 @@ app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
     const content = req.body.content;
-    const comment = req.body.comment;
     console.log("Received POST request with content:", content);
 
-    const newPost = new Post({
-      content,
-      author: userId,
-    });
-
-    const newComment = new Comment({
-      comment,
-      author: userId,
-    });
-
-    await newPost.save();
-
-    User.findOneAndUpdate(
-      { _id: userId },
-      { $inc: { postCount: 1 } },
-      { new: true }
-    )
-      .exec()
-      .then((user) => {
-        if (!user) {
-          console.error("User not found");
-          res.status(500).send("Error incrementing postCount");
-        } else {
-          console.log("Post added to user and postCount incremented");
-          res.status(201).send("Post created and added to user successfully");
-        }
-      })
-      .catch((err) => {
-        console.error("Error incrementing postCount:", err);
-        res.status(500).send("Error incrementing postCount");
+    if (req.body.type === "post") {
+      const newPost = new Post({
+        content,
+        author: userId,
       });
+
+      await newPost.save();
+
+      User.findOneAndUpdate(
+        { _id: userId },
+        { $inc: { postCount: 1 } },
+        { new: true }
+      )
+        .exec()
+        .then((user) => {
+          if (!user) {
+            console.error("User not found");
+            res.status(500).send("Error incrementing postCount");
+          } else {
+            console.log("Post added to user and postCount incremented");
+            res.status(201).send("Post created and added to user successfully");
+          }
+        })
+        .catch((err) => {
+          console.error("Error incrementing postCount:", err);
+          res.status(500).send("Error incrementing postCount");
+        });
+    }
+    //  else if (req.body.type == "text") {
+    //   const comment = req.body.comment;
+    //   const newComment = new Comment({
+    //     comment,
+    //     author: userId,
+    //   });
+    //   await newComment.save();
+    //   res.status(201).send("Comment created successfully");
+    // } else {
+    //   res
+    //     .status(400)
+    //     .send("Invalid request type. Specify 'type' as 'post' or 'comment'.");
+    // }
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).send("Error creating a post");
