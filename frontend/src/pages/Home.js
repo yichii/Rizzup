@@ -4,7 +4,8 @@ import Topics from "../components/Topics";
 import axios from "axios";
 
 const HomePage = () => {
-  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState({});
+  const [newComment, setNewComment] = useState("");
   const [post, setPost] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -32,14 +33,14 @@ const HomePage = () => {
     }
   };
 
-  const handleCommentSubmit = async (e) => {
+  const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
     try {
       const response = await axios.post(
         `http://localhost:3001/home`,
-        { content: comment, type: "comment" },
+        { content: newComment, type: "comment", postId: postId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -49,6 +50,7 @@ const HomePage = () => {
       );
 
       if (response.status === 201) {
+        setNewComment("");
         console.log("Comment posted");
       }
     } catch (error) {
@@ -126,23 +128,16 @@ const HomePage = () => {
                 <h3>{post.title}</h3>
                 <p>Content: {post.content}</p>
                 <p>Author: {post.author.username}</p>
-                <div>
-                  {/* {post.comments.map((comment) => (
-                    <div key={comment._id}>
-                      <p>Comment: {comment.content}</p>
-                      <p>Comment Author: {comment.author.username}</p>
-                    </div>
-                  ))} */}
-                </div>
-                <form onSubmit={handleCommentSubmit}>
+                <p>ID: {post._id}</p>
+                <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
                   <div className="form-group">
                     <input
                       type="text"
                       placeholder="Add a comment"
                       id="comment"
                       style={{ width: "100%" }}
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
                     />
                   </div>
                   <button type="submit">Add Comment</button>

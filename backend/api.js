@@ -187,9 +187,9 @@ app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
     const content = req.body.content;
-    console.log("Received POST request with content:", content);
 
     if (req.body.type === "post") {
+      console.log("Received POST request with content:", content);
       const newPost = new Post({
         content,
         author: userId,
@@ -216,20 +216,29 @@ app.post("/home", verifyToken, async (req, res, next) => {
           console.error("Error incrementing postCount:", err);
           res.status(500).send("Error incrementing postCount");
         });
+    } else if (req.body.type == "comment") {
+      console.log("Received POST request with comment:", content);
+      const postId = req.body.postId;
+      const newComment = new Comment({
+        content,
+        author: userId,
+        postId: postId,
+      });
+
+      await newComment.save();
+
+      await Post.findByIdAndUpdate(
+        postId,
+        { $inc: { commentCount: 1 } },
+        { new: true }
+      );
+
+      res.status(201).send("Comment created successfully");
+    } else {
+      res
+        .status(400)
+        .send("Invalid request type. Specify 'type' as 'post' or 'comment'.");
     }
-    //  else if (req.body.type == "text") {
-    //   const comment = req.body.comment;
-    //   const newComment = new Comment({
-    //     comment,
-    //     author: userId,
-    //   });
-    //   await newComment.save();
-    //   res.status(201).send("Comment created successfully");
-    // } else {
-    //   res
-    //     .status(400)
-    //     .send("Invalid request type. Specify 'type' as 'post' or 'comment'.");
-    // }
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).send("Error creating a post");
