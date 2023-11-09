@@ -4,7 +4,7 @@ import Topics from "../components/Topics";
 import axios from "axios";
 
 const HomePage = () => {
-  const [comments, setComments] = useState({});
+  // const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState("");
   const [post, setPost] = useState("");
   const [posts, setPosts] = useState([]);
@@ -40,7 +40,7 @@ const HomePage = () => {
     try {
       const response = await axios.post(
         `http://localhost:3001/home`,
-        { content: newComment, type: "comment", postId: postId },
+        { content: newComment[postId], type: "comment", postId: postId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const HomePage = () => {
       );
 
       if (response.status === 201) {
-        setNewComment("");
+        setNewComment((prevComments) => ({ ...prevComments, [postId]: "" }));
         console.log("Comment posted");
       }
     } catch (error) {
@@ -63,6 +63,11 @@ const HomePage = () => {
       .get("http://localhost:3001/posts")
       .then((response) => {
         setPosts(response.data);
+        const initialComments = response.data.reduce((acc, post) => {
+          acc[post._id] = "";
+          return acc;
+        }, {});
+        setNewComment(initialComments);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
@@ -136,8 +141,13 @@ const HomePage = () => {
                       placeholder="Add a comment"
                       id="comment"
                       style={{ width: "100%" }}
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
+                      value={newComment[post._id]}
+                      onChange={(e) =>
+                        setNewComment((prevComments) => ({
+                          ...prevComments,
+                          [post._id]: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <button type="submit">Add Comment</button>
