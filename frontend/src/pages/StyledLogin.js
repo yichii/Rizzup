@@ -1,44 +1,40 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const navigate = useNavigate();
+import React from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import ErrorAlert from "../components/ErrorAlert";
+
+
+
+const Login = () => {
+  const [formData, setFormData] = useState({});
   const [error, setError] = useState();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-  const handleOnSubmit = async (e) => {
+  const handleFormDataChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitClick = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      setErrorMessage("Please fill in all fields.");
-      return;
-    }
-
-    // Send a POST request to server's /login route with the form data
-    const response = await fetch("http://localhost:3001/login", {
-      // Same port/route in backend api.js
+    const res = await fetch(API_URL + "users/login/", {
       method: "POST",
+      body: JSON.stringify(formData),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      body: JSON.stringify({ username, password }),
     });
-
-    if (response.ok) {
-      const data = await response.json();
-      const token = data.token;
-      localStorage.setItem("token", token);
-      setUsername("");
-      setPassword("");
-      setErrorMessage("");
-      navigate("/home");
+    const data = await res.json();
+    if (data.success) {
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/");
     } else {
-      setErrorMessage(
-        "Error incorrect user or password data. Please try again."
-      );
+      setError(data.message);
     }
-  };
+ };
+
+
   return (
     <div>
       <section> 
@@ -52,7 +48,7 @@ function Login() {
               <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
             </div>
             <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
-              <form onSubmit={handleOnSubmit}>
+              <form>
                 <h1 className="mt-3 mb-2 text-black">Enter the World of Rizz</h1>
                 <h5 className="mb-4 text-black">
                   {" "}
@@ -74,7 +70,6 @@ function Login() {
                     type="password"
                     placeholder="Password"
                     id="password_input"
-                    class="form-control"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="off"
@@ -87,9 +82,13 @@ function Login() {
                 >
                   Login
                 </button>
-                <p className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
-                  Don't have an account?<a href="/register" style={{ color: "#F28123" }}>Register</a>
-                </p>
+                <h6 className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
+                  {"  "}
+                  Don't have a RizzUp account yet?{" "}
+                  <Link to="/register" style={{ color: "#F28123" }}>
+                    Register
+                  </Link>{" "}
+                </h6>
               </form>
             </div>
           </div>
@@ -108,4 +107,5 @@ function Login() {
   );
 };
 
-export default Login;
+
+// export default Login;

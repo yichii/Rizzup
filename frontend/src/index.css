@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
 :root {
-  --bs-primary: ##808080;
+  --bs-primary: #808080;
   --bs-secondary: #1f1f1f;
   --bs-ternary: #f28123;
   --bs-fourtary: #1682fd;
@@ -107,7 +107,8 @@ a:hover {
 }
 
 .login-box button {
-  color: var(--bs-primary);
+  background: var(--bs-ternary);
+  color: var(--bs-muted-white);
   font-weight: 900;
   font-size: 13px;
   letter-spacing: 0.26px;

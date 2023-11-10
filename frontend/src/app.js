@@ -1,7 +1,8 @@
 // import React, { useState, useEffect } from "react";
-import Login from "./Login";
+import Login from "./pages/Login";
 import Register from "./Register";
 import Home from "./pages/Home";
+import 'bootstrap/dist/css/bootstrap.css';
 import { UserProvider } from "./UserState";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
