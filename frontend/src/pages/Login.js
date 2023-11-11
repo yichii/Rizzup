@@ -45,20 +45,21 @@ function Login() {
         
         <div className="container-fluid row p-0 m-0 vh-100">
           <div className="col-sm-5 login-box m-auto">
-            <div class="px-5 ms-xl-4">
-              <a class="navbar-brand" href="#top">
-                <img src="https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/download/21443747-removebg-preview.png" width="50" height="50" alt=""></img>
-              </a>
-              <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
-            </div>
-            <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
+            
+            <div class="login-text-box align-items-center h-custom-2 mb-5 pt-xl-0 mt-xl-n5">
+              <div>
+                <a class="navbar-brand" href="#top">
+                  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn4.iconfinder.com%2Fdata%2Ficons%2Fwhsr-january-flaticon-set%2F512%2Frocket.png&f=1&nofb=1&ipt=57047b82dd003e3d4952c651f202fc9311882220c5ff5997ae6df133536d075f&ipo=images" width="50" height="50" alt=""></img>
+                </a>
+                <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
+              </div>
               <form onSubmit={handleOnSubmit}>
-                <h1 className="mt-3 mb-2 text-black">Enter the World of Rizz</h1>
-                <h5 className="mb-4 text-black">
+                <h1 className="mt-3 mb-4 text-black fs-3 fw-bold">Enter the World of Rizz</h1>
+                <h5 className="mb-4 fw-normal text-black">
                   {" "}
-                  More than 0 questions are waiting for your wise suggestions!{" "}
+                  Elevate connections and coaching with your insights! Join in - where your wisdom sparks change.{" "}
                 </h5>
-                <div class="form-outline mb-4">
+                <div class="mb-4">
                   <input
                     type="text"
                     placeholder="Username"
@@ -83,12 +84,12 @@ function Login() {
                 {errorMessage && <p className="error">{errorMessage}</p>}
                 <button
                   type="Login"
-                  class="w-100 btn btn:hover border-0 mt-1"
+                  class="w-100 border-0 mt-1 btn"
                 >
                   Login
                 </button>
                 <p className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
-                  Don't have an account?<a href="/register" style={{ color: "#F28123" }}>Register</a>
+                  Don't have an account? <a href="/register" style={{ color: "#F28123" }}>Register</a>
                 </p>
               </form>
             </div>

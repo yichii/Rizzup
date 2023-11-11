@@ -64,19 +64,6 @@ a:hover {
   border-left: 5px solid grey;
 }
 
-.btn {
-  background-color: var(--bs-ternary);
-  border: none;
-  color: var(--bs-white)
-}
-
-.btn:hover {
-  background-color: var(--bs-muted-ternary);
-}
-
-/* .navbar {
-} */
-
 .nav .register {
   padding: 12px 20px;
   border-radius: 5px;
@@ -113,6 +100,10 @@ a:hover {
   font-size: 13px;
   letter-spacing: 0.26px;
   word-wrap: break-word;
+}
+
+btn:hover {
+  background: black;
 }
 
 .register-container {
@@ -306,4 +297,9 @@ a:hover {
 
 .search-box {
   color: var(--bs-primary);
+}
+
+.login-text-box {
+  padding: 0 6rem;
+  padding-right: 5rem;
 }
