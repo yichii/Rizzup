@@ -46,7 +46,7 @@ function Login() {
         <div className="container-fluid row p-0 m-0 vh-100">
           <div className="col-sm-5 login-box m-auto">
             
-            <div class="login-text-box align-items-center h-custom-2 mb-5 pt-xl-0 mt-xl-n5">
+            <div class="form-box align-items-center h-custom-2 mb-5 pt-xl-0 mt-xl-n5">
               <div>
                 <a class="navbar-brand" href="#top">
                   <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn4.iconfinder.com%2Fdata%2Ficons%2Fwhsr-january-flaticon-set%2F512%2Frocket.png&f=1&nofb=1&ipt=57047b82dd003e3d4952c651f202fc9311882220c5ff5997ae6df133536d075f&ipo=images" width="50" height="50" alt=""></img>
@@ -89,7 +89,7 @@ function Login() {
                   Login
                 </button>
                 <p className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
-                  Don't have an account? <a href="/register" style={{ color: "#F28123" }}>Register</a>
+                  Don't have an account? <a className="a-link" href="/register">Register</a>
                 </p>
               </form>
             </div>

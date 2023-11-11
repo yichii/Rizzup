@@ -93,6 +93,15 @@ a:hover {
   color: var(--bs-white);
 }
 
+.register-box button {
+  background: var(--bs-ternary);
+  color: var(--bs-muted-white);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.26px;
+  word-wrap: break-word;
+}
+
 .login-box button {
   background: var(--bs-ternary);
   color: var(--bs-muted-white);
@@ -299,7 +308,11 @@ a:hover {
   color: var(--bs-primary);
 }
 
-.login-text-box {
+.form-box {
   padding: 0 6rem;
   padding-right: 5rem;
+}
+
+.a-link {
+  color: var(--bs-ternary);
 }
