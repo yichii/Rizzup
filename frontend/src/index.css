@@ -4,7 +4,7 @@
   --bs-secondary: #1f1f1f;
   --bs-ternary: #f28123;
   --bs-fourtary: #1682fd;
-  --bs-muted-ternary: rgb(219, 109, 19);
+  --bs-muted-ternary: rgb(202, 99, 15);
   --bs-white: #ffffff;
   --bs-muted-white: #eaeaea;
   
@@ -102,8 +102,8 @@ a:hover {
   word-wrap: break-word;
 }
 
-btn:hover {
-  background: black;
+.btn-primary:hover {
+  background: var(--bs-muted-ternary) !important;
 }
 
 .register-container {

@@ -70,7 +70,7 @@ function Login() {
                     autoComplete="off"
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-3">
                   <input
                     type="password"
                     placeholder="Password"
@@ -81,10 +81,10 @@ function Login() {
                     autoComplete="off"
                   />
                 </div>
-                {errorMessage && <p className="error">{errorMessage}</p>}
+                {errorMessage && <p className="error mt-3">{errorMessage}</p>}
                 <button
                   type="Login"
-                  class="w-100 border-0 mt-1 btn"
+                  class="w-100 border-0 btn btn-primary"
                 >
                   Login
                 </button>
