@@ -316,3 +316,7 @@ a:hover {
 .a-link {
   color: var(--bs-ternary);
 }
+
+.fa-magnifying-glass {
+  color: var(--bs-primary) !important;
+}

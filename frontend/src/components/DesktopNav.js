@@ -31,18 +31,16 @@ const DesktopNav = (props) => {
       ) : (
         <div className="navbar-nav nav">
           <div className="nav-link active mx-2">
-            <div className="register">
-              <Link to="/register">
-                <i className="fa-solid fa-right-to-bracket" /> Register
+            <div className="register fw-bold">
+              <Link to="/register" className="text-decoration-none">
+                <i className="fa-solid fa-user-plus mr-1"></i><span className="px-1"></span>Register
               </Link>{" "}
             </div>
           </div>
           <div className="nav-link active">
-            <div className="login">
-              <Link to="/login">
-                <i className="fa-regular fa-user" /> Login
-              </Link>
-            </div>
+          <div className="login fw-bold ">
+            <Link to="/login" className="text-decoration-none login border-0 p-0"> Login </Link>
+          </div>
           </div>
         </div>
       )}
