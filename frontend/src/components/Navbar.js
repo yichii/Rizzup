@@ -19,15 +19,15 @@ export const Navbar = () => {
       <nav className="navbar navbar-expand-lg shadow ml-10">
         <div className="container-fluid">
           <a className="navbar-brand" href="#top">
-            <Link to="/">
+            <Link to="/home">
               <img
-                src="https://trello.com/1/cards/644ded15a031667f9e444cde/attachments/644ded1929ab9db5065e96fa/previews/644ded1a29ab9db5065e9706/download/21443747-removebg-preview.png"
-                alt="Rizz Up"
+                src="./iconNoBG.png"
+                alt="Rizz Up Icon"
                 style={{ height: "35px" }}
               />
               <img
-                src="RizzUpLogoNoBG.png"
-                alt="Rizz Up"
+                src="./logoNoBG.png"
+                alt="Rizz Up Logo"
                 style={{ height: "30px" }}
                 ></img>
             </Link>
@@ -35,9 +35,9 @@ export const Navbar = () => {
           <form class="form-inline col-md-5">
             <div class="input-group mx-auto">
               <div class="input-group-prepend my-auto">
-                <i className="input-group-tex fa-solid fa-magnifying-glass pr-5 search-box"></i>
+                <i className="input-group-tex fa-solid fa-magnifying-glass pr-5 text-muted"></i>
               </div>
-              <input type="text" className="form-control border-0 search-box" placeholder="Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
+              <input type="text" className="form-control border-0 text-muted" placeholder="Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
             </div>
           </form>
           <MobileNav
