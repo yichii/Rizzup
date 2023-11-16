@@ -1,6 +1,6 @@
-// import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Login from "./pages/Login";
-import Register from "./Register";
+import Register from "./pages/Register";
 import Home from "./pages/Home";
 import 'bootstrap/dist/css/bootstrap.css';
 import { UserProvider } from "./UserState";

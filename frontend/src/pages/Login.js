@@ -14,7 +14,7 @@ function Login() {
       setErrorMessage("Please fill in all fields.");
       return;
     }
-
+    
     // Send a POST request to server's /login route with the form data
     const response = await fetch("http://localhost:3001/login", {
       // Same port/route in backend api.js
