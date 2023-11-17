@@ -48,7 +48,7 @@ const Login = () => {
               <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
             </div>
             <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mb-5 pt-xl-0 mt-xl-n5">
-              <form>
+              <form onSubmit={handleOnSubmit}>
                 <h1 className="mt-3 mb-2 text-black">Enter the World of Rizz</h1>
                 <h5 className="mb-4 text-black">
                   {" "}
@@ -82,13 +82,9 @@ const Login = () => {
                 >
                   Login
                 </button>
-                <h6 className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
-                  {"  "}
-                  Don't have a RizzUp account yet?{" "}
-                  <Link to="/register" style={{ color: "#F28123" }}>
-                    Register
-                  </Link>{" "}
-                </h6>
+                <p className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
+                  Don't have an account?<a href="/register" style={{ color: "#F28123" }}>Register</a>
+                </p>
               </form>
             </div>
           </div>
