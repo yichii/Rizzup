@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema(
       minLength: 8,
       select: false,
     },
-    email: { type: String, required: true, unique: true },
+    email: { 
+      type: String, 
+      required: true, 
+      unique: true 
+    },
     postCount: {
       type: Number,
       default: 0,
