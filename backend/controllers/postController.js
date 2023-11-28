@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Topic = require("../models/Topic");
 const User = require("../models/User");
 const Notification = require("../models/Notification");
-const PostSuko = require("../models/PostSuko");
+const PostLike = require("../models/PostLike");
 
 const getAllPosts = async (req, res) => {
   const posts = await Post.find()
@@ -27,20 +27,20 @@ const getPostsByTopic = async (req, res) => {
     .sort("-createdAt")
     .lean();
 
-  await setExistingSukos(req, posts);
+  await setExistingLikes(req, posts);
 
   return res.send({ posts, topic });
 };
 
-const setExistingSukos = async (req, posts) => {
+const setExistingLikes = async (req, posts) => {
   const user = req.user;
 
   if (user) {
-    const userSukos = await PostSuko.find({ userId: user.id });
+    const userLikes = await PostLike.find({ userId: user.id });
     posts.forEach((post) => {
-      userSukos.forEach((userSuko) => {
-        if (userSuko.postId.equals(post._id)) {
-          post.sukod = true;
+      userLikes.forEach((userLike) => {
+        if (userLike.postId.equals(post._id)) {
+          post.Liked = true;
         }
       });
     });
@@ -55,12 +55,12 @@ const getPost = async (req, res) => {
   }
   const user = req.user;
   if (user) {
-    const userSuko = await PostSuko.findOne({
+    const userLike = await PostLike.findOne({
       userId: user.id,
       postId: post._id,
     });
-    if (userSuko) {
-      post.sukod = true;
+    if (userLike) {
+      post.Liked = true;
     }
   }
   const comments = await Comment.find({ post: id })
@@ -87,17 +87,17 @@ const getUserPosts = async (req, res) => {
     .sort("-createdAt")
     .lean();
 
-  await setExistingSukos(req, posts);
+  await setExistingLikes(req, posts);
 
   const totalPosts = posts.length;
 
-  let totalSukos = 0;
+  let totalLikes = 0;
 
   posts.forEach((post) => {
-    totalSukos += post.sukoCount;
+    totalLikes += post.LikeCount;
   });
 
-  return res.send({ posts, user, totalPosts, totalSukos });
+  return res.send({ posts, user, totalPosts, totalLikes });
 };
 
 const createPost = async (req, res) => {
@@ -116,7 +116,7 @@ const createPost = async (req, res) => {
     content,
     author: authorId,
     topic: topic._id,
-    sukoCount: 0,
+    LikeCount: 0,
     commentCount: 0,
   });
 
@@ -129,7 +129,7 @@ const createPost = async (req, res) => {
   return res.send({ post, success: true });
 };
 
-const sukoPost = async (req, res) => {
+const LikePost = async (req, res) => {
   const userId = req.user.id;
   const postId = req.params.id;
   const post = await Post.findById(postId);
@@ -137,47 +137,47 @@ const sukoPost = async (req, res) => {
     return res.send({ message: "post doesnt exist" });
   }
   const user = await User.findById(userId);
-  const existingSuko = await PostSuko.findOne({ userId, postId });
-  if (existingSuko) {
+  const existingLike = await PostLike.findOne({ userId, postId });
+  if (existingLike) {
     return res.send({ message: "you already liked this post" });
   }
-  await PostSuko.create({
+  await PostLike.create({
     postId,
     userId,
   });
   await Notification.create({
-    notificationType: "postSuko",
+    notificationType: "postLike",
     user: post.author._id,
     post: post._id,
     topic: post.topic._id,
     notifier: user._id,
   });
-  const postSukos = await PostSuko.find({ postId });
-  post.sukoCount = postSukos.length;
+  const postLikes = await PostLike.find({ postId });
+  post.LikeCount = postLikes.length;
   await post.save();
   return res.send({ post });
 };
 
-const unsukoPost = async (req, res) => {
+const unLikePost = async (req, res) => {
   const userId = req.user.id;
   const postId = req.params.id;
   const post = await Post.findById(postId);
   if (!post) {
     return res.send({ message: "post doesnt exist" });
   }
-  const existingSuko = await PostSuko.findOne({ postId, userId });
-  if (!existingSuko) {
+  const existingLike = await PostLike.findOne({ postId, userId });
+  if (!existingLike) {
     return res.send({ message: "like doesnt exist" });
   }
 
   await Notification.deleteOne({
     post: postId,
     user: userId,
-    notificationType: "postSuko",
+    notificationType: "postLike",
   });
-  await existingSuko.deleteOne();
-  const postSukos = await PostSuko.find({ postId });
-  post.sukoCount = postSukos.length;
+  await existingLike.deleteOne();
+  const postLikes = await PostLike.find({ postId });
+  post.LikeCount = postLikes.length;
   await post.save();
   return res.send({ post });
 };
@@ -228,6 +228,6 @@ module.exports = {
   deletePost,
   updatePost,
   getUserPosts,
-  sukoPost,
-  unsukoPost,
+  LikePost,
+  unLikePost,
 };
