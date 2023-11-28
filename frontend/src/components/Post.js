@@ -1,7 +1,7 @@
 // import React from "react";
 // import { Link } from "react-router-dom";
 // import ReactMarkdown from "react-markdown";
-// import Suko from "./Suko";
+// import Like from "./Like";
 // import { useNavigate } from "react-router-dom";
 
 // const Post = (props) => {
@@ -10,8 +10,8 @@
 //     author,
 //     content,
 //     _id,
-//     sukod,
-//     sukoCount,
+//     Liked,
+//     LikeCount,
 //     edited,
 //     topic,
 //     createdAt,
@@ -27,7 +27,7 @@
 //         <div className="container">
 //           <div className="d-flex flex-direction-start">
 //             <div>
-//               <Suko sukod={sukod} sukoCount={sukoCount} postId={_id} />
+//               <Like Liked={Liked} LikeCount={LikeCount} postId={_id} />
 //             </div>
 //             <div className="vr mx-4"></div>
 //             <div
@@ -77,7 +77,7 @@
 // import React from "react";
 // import { Link } from "react-router-dom";
 // import ReactMarkdown from "react-markdown";
-// import Suko from "./Suko";
+// import Like from "./Like";
 // import { useNavigate } from "react-router-dom";
 // import moment from "moment";
 
@@ -87,8 +87,8 @@
 //     author,
 //     content,
 //     _id,
-//     sukod,
-//     sukoCount,
+//     Liked,
+//     LikeCount,
 //     edited,
 //     topic,
 //     createdAt,
@@ -103,7 +103,7 @@
 //         <div className="container">
 //           <div className="d-flex flex-direction-start">
 //             <div>
-//               <Suko sukod={sukod} sukoCount={sukoCount} postId={_id} />
+//               <Like Liked={Liked} LikeCount={LikeCount} postId={_id} />
 //             </div>
 //             <div className="vr mx-4"></div>
 //             <div
