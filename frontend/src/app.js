@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import Settings from "./pages/Settings";
+
 import 'bootstrap/dist/css/bootstrap.css';
 import { UserProvider } from "./UserState";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -14,6 +16,8 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
+
         </Routes>
       </UserProvider>
     </BrowserRouter>
