@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Navbar } from "../components/Navbar";
 
 const SettingsPage = () => {
   const [settings, setSettings] = useState({
     username: '',
     email: '',
+    password: '',
     theme: 'light',
     notifications: false,
+
+    
   });
 
   useEffect(() => {
@@ -31,10 +35,13 @@ const SettingsPage = () => {
   };
 
   return (
-    <div>
-      <h1>Settings</h1>
-      <form>
-        <label htmlFor="username">Username:</label>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}> 
+       <Navbar/>
+    <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'left', marginTop: 0 }}>    <div>
+    <h1 style={{ margin: 0 }}>Settings</h1>
+          <form>
+        <label htmlFor="username">Change Username:</label>
+        <br />
         <input
           type="text"
           id="username"
@@ -43,8 +50,10 @@ const SettingsPage = () => {
           onChange={(e) => setSettings({ ...settings, username: e.target.value })}
         />
         <br />
+        <br />
 
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Change Email:</label>
+        <br />
         <input
           type="email"
           id="email"
@@ -53,8 +62,22 @@ const SettingsPage = () => {
           onChange={(e) => setSettings({ ...settings, email: e.target.value })}
         />
         <br />
+        <br />
 
-        <label htmlFor="theme">Theme:</label>
+        <label htmlFor="password">Change Password:</label>
+        <br />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={settings.password}
+          onChange={(e) => setSettings({ ...settings, password: e.target.value })}
+        />
+        <br />
+        <br />
+
+        <label htmlFor="theme">Change Theme:</label>
+        <br />
         <select
           id="theme"
           name="theme"
@@ -66,7 +89,7 @@ const SettingsPage = () => {
         </select>
         <br />
 
-        <label htmlFor="notifications">Enable Notifications:</label>
+        <label htmlFor="notifications">Enable Notifications: </label>
         <input
           type="checkbox"
           id="notifications"
@@ -80,6 +103,8 @@ const SettingsPage = () => {
           Save
         </button>
       </form>
+    </div>
+    </div>
     </div>
   );
 };
