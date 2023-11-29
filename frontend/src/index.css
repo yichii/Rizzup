@@ -74,6 +74,10 @@ a:hover {
   background-color: var(--bs-muted-ternary);
 }
 
+.btn-primary:hover {
+  background: var(--bs-muted-ternary) !important;
+}
+
 /* .navbar {
 } */
 
@@ -118,6 +122,15 @@ a:hover {
 
 .register-container {
   margin-top: 75px;
+}
+
+.register-box button {
+  background: var(--bs-ternary);
+  color: var(--bs-muted-white);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.26px;
+  word-wrap: break-word;
 }
 
 .notif-container .title {
@@ -243,6 +256,19 @@ a:hover {
 }
 
 .create-post .title {
+  color: var(--bs-ternary);
+}
+
+.search-box {
+  color: var(--bs-primary);
+}
+
+.form-box {
+  padding: 0 6rem;
+  padding-right: 5rem;
+}
+
+.a-link {
   color: var(--bs-ternary);
 }
 
