@@ -4,6 +4,7 @@ import axios from "axios";
 
 const HomePage = () => {
   const [post, setPost] = useState("");
+  const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
 
   const handlePostSubmit = async (e) => {
@@ -13,7 +14,10 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3001/home",
-        { content: post },
+        { 
+          content: post,
+          title: title
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -24,6 +28,7 @@ const HomePage = () => {
 
       if (response.status === 201) {
         setPost("");
+        setTitle("");
       }
     } catch (error) {
       console.error("Error creating a post:", error);
@@ -57,6 +62,14 @@ const HomePage = () => {
             <div className="form-group">
               <input
                 type="text"
+                placeholder="Title"
+                id="title"
+                style={{ width: "100%" }}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <input
+                type="text"
                 placeholder="Post"
                 id="post"
                 style={{ width: "100%" }}
@@ -69,7 +82,7 @@ const HomePage = () => {
           <div>
             {posts.map((post) => (
               <div key={post._id}>
-                <h3>{post.title}</h3>
+                <h3>Title: {post.title}</h3>
                 <p>Content: {post.content}</p>
                 <p>Author: {post.author}</p>
               </div>

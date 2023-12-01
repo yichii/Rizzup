@@ -204,7 +204,7 @@ const updatePost = async (req, res) => {
   const postId = req.params.id;
   const userId = req.user.id;
   const isAdmin = req.user.isAdmin;
-  const { content } = req.body;
+  const { title, content } = req.body;
 
   const post = await Post.findOne({ _id: postId });
 
@@ -216,6 +216,7 @@ const updatePost = async (req, res) => {
     return res.send({ message: "post isnt yours" });
   }
 
+  await post.updateOne({ title, edited: true });
   await post.updateOne({ content, edited: true });
   return res.send(post);
 };
