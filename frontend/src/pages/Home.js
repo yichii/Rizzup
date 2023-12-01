@@ -9,7 +9,8 @@ const HomePage = () => {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    console.log("Post content:", post);
+    console.log("Title:", title);
+    console.log("Post:", post);
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(

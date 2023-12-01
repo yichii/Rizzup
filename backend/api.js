@@ -155,10 +155,13 @@ app.post("/login", async (req, res, next) => {
 app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
+    const title = req.body.title;
     const content = req.body.content;
+    console.log("Received POST request with title:", title);
     console.log("Received POST request with content:", content);
-
+    
     const newPost = new Post({
+      title,
       content,
       author: userId,
     });
