@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema(
-  {
+const Schema = moongoose.Schema
+
+const postSchema = new Schema({
     title: {
       type: String,
       maxLength: [80, "Must be no more than 80 characters"],

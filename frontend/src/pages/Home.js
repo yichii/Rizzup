@@ -16,8 +16,8 @@ const HomePage = () => {
       const response = await axios.post(
         "http://localhost:3001/home",
         { 
-          content: post,
-          title: title
+          title: title,
+          content: post
         },
         {
           headers: {
@@ -86,6 +86,7 @@ const HomePage = () => {
                 <h3>Title: {post.title}</h3>
                 <p>Content: {post.content}</p>
                 <p>Author: {post.author}</p>
+                <p>Username: {post.username}</p>
               </div>
             ))}
           </div>

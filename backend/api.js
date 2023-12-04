@@ -12,6 +12,7 @@ const jwt = require("jsonwebtoken");
 
 dotenv.config();
 
+// express app
 const app = express();
 const port = process.env.PORT || 3001; // Port 3001
 
@@ -155,15 +156,18 @@ app.post("/login", async (req, res, next) => {
 app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
+    const username = req.user.username;
     const title = req.body.title;
     const content = req.body.content;
     console.log("Received POST request with title:", title);
     console.log("Received POST request with content:", content);
-    
+    console.log("Received POST request with username:", username);
+
     const newPost = new Post({
       title,
       content,
       author: userId,
+      username: username
     });
 
     await newPost.save();

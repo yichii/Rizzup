@@ -7,10 +7,10 @@ const Notification = require("../models/Notification");
 const PostSuko = require("../models/PostSuko");
 
 const getAllPosts = async (req, res) => {
-  const posts = await Post.find()
+  const posts = await Post.find({})
     .populate("author")
     .populate("topic")
-    .sort("-createdAt");
+    .sort({createdAt: -1});
   return res.send({ posts });
 };
 
@@ -24,27 +24,12 @@ const getPostsByTopic = async (req, res) => {
   const posts = await Post.find({ topic: topic._id })
     .populate("author")
     .populate("topic")
-    .sort("-createdAt")
+    .sort({createdAt: -1})
     .lean();
 
   await setExistingSukos(req, posts);
 
   return res.send({ posts, topic });
-};
-
-const setExistingSukos = async (req, posts) => {
-  const user = req.user;
-
-  if (user) {
-    const userSukos = await PostSuko.find({ userId: user.id });
-    posts.forEach((post) => {
-      userSukos.forEach((userSuko) => {
-        if (userSuko.postId.equals(post._id)) {
-          post.sukod = true;
-        }
-      });
-    });
-  }
 };
 
 const getPost = async (req, res) => {
@@ -83,6 +68,7 @@ const getUserPosts = async (req, res) => {
 
   const posts = await Post.find({ author: user._id })
     .populate("author")
+    .populate("username")
     .populate("topic")
     .sort("-createdAt")
     .lean();
@@ -107,6 +93,7 @@ const createPost = async (req, res) => {
     return res.send({ message: "topic not found" });
   }
   const authorId = req.user.id;
+  const username = req.user.username;
   const isAdmin = req.user.isAdmin;
   if (topic.isLocked && !isAdmin) {
     return res.send({ message: "you cant post here" });
@@ -115,6 +102,7 @@ const createPost = async (req, res) => {
     title,
     content,
     author: authorId,
+    username: username,
     topic: topic._id,
     sukoCount: 0,
     commentCount: 0,
@@ -127,6 +115,45 @@ const createPost = async (req, res) => {
   }
 
   return res.send({ post, success: true });
+};
+
+const deletePost = async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.user.id;
+  const isAdmin = req.user.isAdmin;
+
+  const post = await Post.findOne({ _id: postId });
+  if (!post) {
+    return res.send("post not found");
+  }
+  if (userId != post.author && !isAdmin) {
+    return res.send("you cant delete someone elses post");
+  }
+  await post.deleteOne();
+  await Comment.deleteMany({ post: post._id });
+  await Notification.deleteMany({ post: post._id });
+  return res.send(post);
+};
+
+const updatePost = async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.user.id;
+  const isAdmin = req.user.isAdmin;
+  const { title, content } = req.body;
+
+  const post = await Post.findOne({ _id: postId });
+
+  if (!post) {
+    return res.send({ message: "post not found" });
+  }
+
+  if (post.author != userId && !isAdmin) {
+    return res.send({ message: "post isnt yours" });
+  }
+
+  await post.updateOne({ title, edited: true });
+  await post.updateOne({ content, edited: true });
+  return res.send(post);
 };
 
 const sukoPost = async (req, res) => {
@@ -182,53 +209,30 @@ const unsukoPost = async (req, res) => {
   return res.send({ post });
 };
 
-const deletePost = async (req, res) => {
-  const postId = req.params.id;
-  const userId = req.user.id;
-  const isAdmin = req.user.isAdmin;
+const setExistingSukos = async (req, posts) => {
+  const user = req.user;
 
-  const post = await Post.findOne({ _id: postId });
-  if (!post) {
-    return res.send("post not found");
+  if (user) {
+    const userSukos = await PostSuko.find({ userId: user.id });
+    posts.forEach((post) => {
+      userSukos.forEach((userSuko) => {
+        if (userSuko.postId.equals(post._id)) {
+          post.sukod = true;
+        }
+      });
+    });
   }
-  if (userId != post.author && !isAdmin) {
-    return res.send("you cant delete someone elses post");
-  }
-  await post.deleteOne();
-  await Comment.deleteMany({ post: post._id });
-  await Notification.deleteMany({ post: post._id });
-  return res.send(post);
-};
-
-const updatePost = async (req, res) => {
-  const postId = req.params.id;
-  const userId = req.user.id;
-  const isAdmin = req.user.isAdmin;
-  const { title, content } = req.body;
-
-  const post = await Post.findOne({ _id: postId });
-
-  if (!post) {
-    return res.send({ message: "post not found" });
-  }
-
-  if (post.author != userId && !isAdmin) {
-    return res.send({ message: "post isnt yours" });
-  }
-
-  await post.updateOne({ title, edited: true });
-  await post.updateOne({ content, edited: true });
-  return res.send(post);
 };
 
 module.exports = {
   getAllPosts,
   getPostsByTopic,
   getPost,
+  getUserPosts,
   createPost,
   deletePost,
   updatePost,
-  getUserPosts,
   sukoPost,
   unsukoPost,
+  setExistingSukos,
 };
