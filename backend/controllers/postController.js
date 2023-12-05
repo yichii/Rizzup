@@ -8,7 +8,7 @@ const PostSuko = require("../models/PostSuko");
 
 const getAllPosts = async (req, res) => {
   const posts = await Post.find({})
-    .populate("author")
+    .populate('author', ['username'])
     .populate("topic")
     .sort({createdAt: -1});
   return res.send({ posts });
@@ -33,10 +33,9 @@ const getPostsByTopic = async (req, res) => {
 };
 
 const getPost = async (req, res) => {
-  const id = req.params.id;
-  const post = await Post.findById(id).populate("author").lean();
+  const post = await Post.findById({ user: req.params.id}).populate('author', ['username']).lean();
   if (!post) {
-    return res.send({ message: "post not found" });
+    return res.status(400).json({ msg: "Post not found" });
   }
   const user = req.user;
   if (user) {

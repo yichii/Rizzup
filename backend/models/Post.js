@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Schema = moongoose.Schema
+const Schema = mongoose.Schema
 
 const postSchema = new Schema({
     title: {
@@ -13,7 +13,7 @@ const postSchema = new Schema({
       minLength: [1, "Must be more than 0 characters"],
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Users",
     },
     edited: {
