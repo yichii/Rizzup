@@ -13,12 +13,21 @@ const postSchema = new mongoose.Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Users",
+      ref: "User",
     },
     edited: {
       type: Boolean,
       default: false,
     },
+    comments: [
+      {
+        text: String,
+        author: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      },
+    ],
     commentCount: {
       type: Number,
       default: 0,
