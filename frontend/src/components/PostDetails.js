@@ -5,7 +5,7 @@ import Comments from "./Comments";
 import CreateComment from "./CreateComment";
 import { Navbar } from "./Navbar";
 import ReactMarkdown from "react-markdown";
-import Suko from "./Suko";
+// import Suko from "./Suko";
 import ContentEditor from "./ContentEditor";
 import { API_URL } from "../config";
 import Loading from "./Loading";
@@ -81,11 +81,11 @@ const PostDetails = () => {
                   <div className="container">
                     <div className="d-flex flex-direction-start">
                       <div>
-                        <Suko
+                        {/* <Suko
                           postId={post._id}
                           sukoCount={sukoCount}
                           sukod={sukod}
-                        />
+                        /> */}
                       </div>
 
                       <div className="vr mx-4"></div>
