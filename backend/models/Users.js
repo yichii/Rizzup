@@ -1,4 +1,5 @@
 // Define User Schema and Model
+var postSchema = require(__dirname + "/Post.js").schema;
 const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {

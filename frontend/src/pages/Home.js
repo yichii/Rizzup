@@ -4,8 +4,6 @@ import Topics from "../components/Topics";
 import axios from "axios";
 
 const HomePage = () => {
-  // const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState("");
   const [post, setPost] = useState("");
   const [posts, setPosts] = useState([]);
 
@@ -16,7 +14,7 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3001/home",
-        { content: post, type: "post" },
+        { content: post },
         {
           headers: {
             "Content-Type": "application/json",
@@ -33,74 +31,16 @@ const HomePage = () => {
     }
   };
 
-  const handleCommentSubmit = async (e, postId) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await axios.post(
-        `http://localhost:3001/home`,
-        { content: newComment[postId], type: "comment", postId: postId },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 201) {
-        setNewComment((prevComments) => ({ ...prevComments, [postId]: "" }));
-        console.log("Comment posted");
-      }
-    } catch (error) {
-      console.error("Error creating a comment:", error);
-    }
-  };
-
   useEffect(() => {
     axios
       .get("http://localhost:3001/posts")
       .then((response) => {
         setPosts(response.data);
-        const initialComments = response.data.reduce((acc, post) => {
-          acc[post._id] = "";
-          return acc;
-        }, {});
-        setNewComment(initialComments);
       })
       .catch((error) => {
         console.error("Error fetching posts:", error);
       });
   }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3001/posts")
-  //     .then((response) => {
-  //       setPosts(response.data);
-
-  //       response.data.forEach((post) => {
-  //         axios
-  //           .get(`http://localhost:3001/posts/${post._id}/comments`)
-  //           .then((commentsResponse) => {
-  //             const updatedPosts = posts.map((p) => {
-  //               if (p._id === post._id) {
-  //                 return { ...p, comments: commentsResponse.data };
-  //               }
-  //               return p;
-  //             });
-  //             setPosts(updatedPosts);
-  //           })
-  //           .catch((error) => {
-  //             console.error("Error fetching comments:", error);
-  //           });
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching posts:", error);
-  //     });
-  // }, [posts]);
 
   return (
     <div>
@@ -132,25 +72,7 @@ const HomePage = () => {
               <div key={post._id}>
                 <h3>{post.title}</h3>
                 <p>Content: {post.content}</p>
-                <p>Author: {post.author.username}</p>
-                <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      placeholder="Add a comment"
-                      id="comment"
-                      style={{ width: "100%" }}
-                      value={newComment[post._id]}
-                      onChange={(e) =>
-                        setNewComment((prevComments) => ({
-                          ...prevComments,
-                          [post._id]: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <button type="submit">Add Comment</button>
-                </form>
+                <p>Author: {post.author}</p>
               </div>
             ))}
           </div>
