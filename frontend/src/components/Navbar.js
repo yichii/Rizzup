@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
+
+
 export const Navbar = () => {
   const user = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ export const Navbar = () => {
     <div>
       <nav className="navbar navbar-expand-lg shadow ml-10">
         <div className="container-fluid">
+          {/* user={user} */}
           <a className="navbar-brand" href="#top">
             <Link to="/home">
               <img
@@ -37,7 +40,7 @@ export const Navbar = () => {
               <div class="input-group-prepend my-auto">
                 <i className="input-group-tex fa-solid fa-magnifying-glass pr-5 text-muted"></i>
               </div>
-              <input type="text" className="form-control border-0 text-muted" placeholder="Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
+              <input type="text" className="form-control border-0 text-muted" placeholder= "Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
             </div>
           </form>
           <MobileNav
@@ -55,3 +58,5 @@ export const Navbar = () => {
     </div>
   );
 };
+
+export default Navbar;

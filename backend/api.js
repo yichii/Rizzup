@@ -49,6 +49,7 @@ const verifyToken = (req, res, next) => {
 // app.use("/home", verifyToken);
 // Add more routes that require authentication as needed.
 
+// CORS configuration
 const corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -79,25 +80,49 @@ db.once("open", () => {
 //     next(error);
 //   }
 // });
+
+// Example route to get all posts
 app.get("/posts", (req, res) => {
   Post.find()
     .then((Post) => res.json(Post))
     .catch((err) => res.json(err));
 });
 
+// Serve the Home.js file
 app.get("/home", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
 
+// Serve the Login.js file
 app.get("/login", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Login.js");
   res.sendFile(filePath);
 });
 
+// Serve the Register.js file
 app.get("/register", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Register.js");
   res.sendFile(filePath);
+});
+
+// Get user profile by ID
+app.get("/users/:username", verifyToken, async (req, res, next) => {
+  try {
+    const username = req.params.username; // Use req.params.username instead of req.username
+
+    if (!username) {
+      console.error("User not found");
+      return res.status(404).json({ message: "User not found" });
+    } else {
+      console.log("User profile retrieved successfully:", username);
+    }
+
+    res.json(username);
+  } catch (error) {
+    console.error("Error retrieving user profile:", error);
+    next(error);
+  }
 });
 
 // app.get("/posts/:userId", async (req, res, next) => {
@@ -113,6 +138,8 @@ app.get("/register", function (req, res) {
 //   }
 // });
 
+
+// Register new user
 app.post("/register", async (req, res, next) => {
   try {
     const newUser = new User({
@@ -135,6 +162,7 @@ app.post("/register", async (req, res, next) => {
   }
 });
 
+// Login user and generate JWT token
 app.post("/login", async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
@@ -152,6 +180,7 @@ app.post("/login", async (req, res, next) => {
   }
 });
 
+// Create a new post (requires authentication)
 app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -189,6 +218,9 @@ app.post("/home", verifyToken, async (req, res, next) => {
     res.status(500).send("Error creating a post");
   }
 });
+
+
+
 
 // Error handler
 app.use(function (err, req, res, next) {

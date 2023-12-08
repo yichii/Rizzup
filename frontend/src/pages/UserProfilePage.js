@@ -1,77 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "./Navbar"; // Import your Navbar component
-import UserAboutMe from "./UserAboutMe";
-import UserComment from "./UserComment";
-import Post from "./Post";
+import Navbar from "../components/Navbar";
+import Loading from "../components/Loading";
+import axios from "axios";
 
 const UserProfilePage = () => {
   const { username } = useParams();
-  const [userProfile, setUserProfile] = useState(null);
-  const [userPosts, setUserPosts] = useState([]);
-  const [userComments, setUserComments] = useState([]);
+  const [profileUser, setProfileUser] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    // Fetch user profile data, posts, and comments
-    const fetchUserData = async () => {
-      try {
-        const profileResponse = await fetch(`http://localhost:3001/users/${username}`);
-        const profileData = await profileResponse.json();
-        setUserProfile(profileData);
-        
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
     fetchUserData();
-  }, [username]);
+  }, [username, token]);
+
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`http://localhost:3001/users/${username}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+      setProfileUser(response.data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
 
   return (
     <div>
       <Navbar />
       <div className="container">
         <h2 className="my-4" style={{ color: "var(--bs-ternary)" }}>
-          {username}'s profile
+          {profileUser ? `${profileUser.username}'s Profile` : "Loading..."}
         </h2>
-        {userProfile && (
+        {profileUser ? (
           <div className="row">
             <div className="col-sm-4">
               <div className="card" style={{ height: "350px", border: "1px solid black" }}>
-                <UserAboutMe profileUser={userProfile} />
-              </div>
-              <div className="stats mb-1" style={{ color: "var(--bs-ternary)" }}>
-                <span className="mx-1">Posts: {userPosts.length}</span>{" "}
-                {/* Add other stats as needed */}
-              </div>
-            </div>
-            <div className="col-sm-8" style={{ maxWidth: "700px" }}>
-              <div className="user-tabs mb-4">
-                <button className="btn btn-light" onClick={() => setTab("posts")}>
-                  Posts
-                </button>
-                <button className="btn btn-light" onClick={() => setTab("comments")}>
-                  Comments
-                </button>
-              </div>
-
-              {tab === "posts" && (
+                {/* Display user details as needed */}
                 <div>
-                  {userPosts.map((post) => (
-                    <Post key={post.id} post={post} />
-                  ))}
+                  <h4>About {profileUser.username}</h4>
+                  <p>Email: {profileUser.email}</p>
+                  {/* Add other user details you want to display */}
                 </div>
-              )}
-
-              {tab === "comments" && (
-                <div>
-                  {userComments.map((comment) => (
-                    <UserComment key={comment.id} comment={comment} />
-                  ))}
-                </div>
-              )}
+              </div>
             </div>
           </div>
+        ) : (
+          <Loading />
         )}
       </div>
     </div>

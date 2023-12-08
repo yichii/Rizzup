@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const DesktopNav = (props) => {
-  const { user, handleLogout, notificationCount } = props;
+  const { user: token, handleLogout, notificationCount } = props;
   return (
     <div className="desktop-nav">
-      {user ? (
+      {token ? (
         <div className="navbar-design">
           <ul className="desktop navbar-nav">
             <li className="nav-item mx-2">
@@ -17,8 +17,8 @@ const DesktopNav = (props) => {
               </Link>
             </li>
             <li className="nav-item mx-3">
-              <Link to={"/users/" + user.username}>
-                <i class="fa-regular fa-user" /> {user.username}
+              <Link to={"/users/" + token.username}>
+                <i class="fa-regular fa-user" /> {token.username}
               </Link>
             </li>
             <li className="nav-item">
