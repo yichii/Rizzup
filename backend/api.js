@@ -7,8 +7,6 @@ const dotenv = require("dotenv");
 const User = require("./models/Users");
 const Post = require("./models/Post");
 const jwt = require("jsonwebtoken");
-const Profile = require("./models/Profile");
-const auth = require("./middleware/auth");
 const userController = require("./controllers/userController");
 
 
