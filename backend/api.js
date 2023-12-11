@@ -9,6 +9,7 @@ const Post = require("./models/Post");
 const jwt = require("jsonwebtoken");
 const Profile = require("./models/Profile");
 const auth = require("./middleware/auth");
+const userController = require("./controllers/userController");
 
 
 // const appRoutes = require("./app");
@@ -26,28 +27,49 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 
-const verifyToken = (req, res, next) => {
-  const authorizationHeader = req.header("Authorization");
+// const verifyToken = (req, res, next) => {
+//   const authorizationHeader = req.header("Authorization");
 
-  if (!authorizationHeader) {
-    return res.status(401).json({ message: "Unauthorized" });
+//   if (!authorizationHeader) {
+//     return res.status(401).json({ message: "Unauthorized" });
+//   }
+
+//   const tokenParts = authorizationHeader.split(" ");
+//   if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
+//     return res.status(401).json({ message: "Invalid token format" });
+//   }
+
+//   const token = tokenParts[1];
+
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     req.user = decoded;
+//     next();
+//   } catch (error) {
+//     return res.status(401).json({ message: "Token is not valid" });
+//   }
+// };
+
+const verifyToken = async (req, res, next) => {
+  const { token } = req.headers;
+  const decoded = jwt.decode(token, process.env.SECRET_KEY);
+  if (!decoded) {
+    return res.send("wrong credentials");
   }
-
-  const tokenParts = authorizationHeader.split(" ");
-  if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
-    return res.status(401).json({ message: "Invalid token format" });
-  }
-
-  const token = tokenParts[1];
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res.status(401).json({ message: "Token is not valid" });
-  }
+  req.user = decoded;
+  next();
 };
+
+const optionallyVerifyToken = async (req, res, next) => {
+  const { token } = req.headers;
+  if (!token) {
+    return next();
+  }
+  const decoded = jwt.decode(token, process.env.SECRET_KEY);
+  req.user = decoded;
+  next();
+};
+
 
 // Apply this middleware to protected routes
 // app.use("/home", verifyToken);
@@ -71,6 +93,10 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB!");
 });
+
+// patch path works...
+app.patch("/users/:username/biography", verifyToken, userController.updateBiography);
+
 
 // Routes
 // app.use("/", appRoutes);
@@ -223,45 +249,6 @@ app.post("/home", verifyToken, async (req, res, next) => {
     res.status(500).send("Error creating a post");
   }
 });
-
-// @route    POST api/profile
-// @desc     Create or update user profile
-// @access   Private
-app.post('/', auth, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const {
-      company,
-      website,
-      location,
-      bio,
-      status,
-      githubusername,
-      skills,
-      youtube,
-      facebook,
-      twitter,
-      instagram,
-      linkedin
-    } = req.body;
-
-    try {
-      // Using upsert option (creates new doc if no match is found):
-      let profile = await User.findOneAndUpdate(
-        { user: req.user.id },
-        { $set: profileFields },
-        { new: true, upsert: true }
-      );
-      res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  }
-);
 
 // Error handler
 app.use(function (err, req, res, next) {

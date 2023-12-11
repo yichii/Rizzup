@@ -7,7 +7,8 @@ import MobileNav from "./MobileNav";
 
 
 export const Navbar = () => {
-  const user = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+
   const navigate = useNavigate();
   //const [notificationCount, setNotificationCount] = useState(0);
 

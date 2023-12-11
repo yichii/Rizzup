@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/Users");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -80,4 +80,30 @@ const updateAboutMe = async (req, res) => {
   return res.send({ user });
 };
 
-module.exports = { register, login, updateAboutMe };
+
+const updateBiography = async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    const { biography } = req.body;
+
+    // Find the user by username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Update the biography field
+    user.biography = biography;
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ msg: "Biography updated successfully" });
+  } catch (error) {
+    console.error("Error updating biography:", error);
+    res.status(500).send("Error updating biography");
+  }
+};
+
+module.exports = { register, login, updateAboutMe, updateBiography};
