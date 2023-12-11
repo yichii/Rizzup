@@ -25,47 +25,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 
-// const verifyToken = (req, res, next) => {
-//   const authorizationHeader = req.header("Authorization");
+const verifyToken = (req, res, next) => {
+  const authorizationHeader = req.header("Authorization");
 
-//   if (!authorizationHeader) {
-//     return res.status(401).json({ message: "Unauthorized" });
-//   }
-
-//   const tokenParts = authorizationHeader.split(" ");
-//   if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
-//     return res.status(401).json({ message: "Invalid token format" });
-//   }
-
-//   const token = tokenParts[1];
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.user = decoded;
-//     next();
-//   } catch (error) {
-//     return res.status(401).json({ message: "Token is not valid" });
-//   }
-// };
-
-const verifyToken = async (req, res, next) => {
-  const { token } = req.headers;
-  const decoded = jwt.decode(token, process.env.SECRET_KEY);
-  if (!decoded) {
-    return res.send("wrong credentials");
+  if (!authorizationHeader) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
-  req.user = decoded;
-  next();
-};
 
-const optionallyVerifyToken = async (req, res, next) => {
-  const { token } = req.headers;
-  if (!token) {
-    return next();
+  const tokenParts = authorizationHeader.split(" ");
+  if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
+    return res.status(401).json({ message: "Invalid token format" });
   }
-  const decoded = jwt.decode(token, process.env.SECRET_KEY);
-  req.user = decoded;
-  next();
+
+  const token = tokenParts[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Token is not valid" });
+  }
 };
 
 
