@@ -121,6 +121,28 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// app.get("/posts", async (req, res, next) => {
+//   try {
+//     const posts = await Post.find();
+//     res.json(posts);
+//   } catch (error) {
+//     console.error("Error retrieving posts:", error);
+//     next(error);
+//   }
+// });
+// app.get("/:postId/comment", async (req, res, next) => {});
+
+// app.get("/posts/:postId/comments", async (req, res, next) => {
+//   try {
+//     const postId = req.params.postId;
+//     const comments = await Comment.find({ postId });
+//     res.json(comments);
+//   } catch (error) {
+//     console.error("Error fetching comments:", error);
+//     res.status(500).json({ message: "Error fetching comments" });
+//   }
+// });
+
 // Get Specific username info 
 app.get('/users/:username', async (req, res) => {
   try {
