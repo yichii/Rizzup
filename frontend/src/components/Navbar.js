@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DesktopNav from "./DesktopNav";
@@ -9,7 +9,7 @@ import MobileNav from "./MobileNav";
 export const Navbar = () => {
   const user = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [notificationCount, setNotificationCount] = useState(0);
+  //const [notificationCount, setNotificationCount] = useState(0);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -20,7 +20,6 @@ export const Navbar = () => {
     <div>
       <nav className="navbar navbar-expand-lg shadow ml-10">
         <div className="container-fluid">
-          {/* user={user} */}
           <a className="navbar-brand" href="#top">
             <Link to="/home">
               <img
@@ -46,12 +45,12 @@ export const Navbar = () => {
           <MobileNav
             user={user}
             handleLogout={handleLogout}
-            notificationCount={notificationCount}
+            //notificationCount={notificationCount}
           />
           <DesktopNav
             user={user}
             handleLogout={handleLogout}
-            notificationCount={notificationCount}
+            //notificationCount={notificationCount}
           />
         </div>
       </nav>

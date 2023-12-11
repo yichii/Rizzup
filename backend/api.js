@@ -7,6 +7,9 @@ const dotenv = require("dotenv");
 const User = require("./models/Users");
 const Post = require("./models/Post");
 const jwt = require("jsonwebtoken");
+const Profile = require("./models/Profile");
+const auth = require("./middleware/auth");
+
 
 // const appRoutes = require("./app");
 
@@ -21,6 +24,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
 
 const verifyToken = (req, res, next) => {
   const authorizationHeader = req.header("Authorization");
@@ -71,22 +75,39 @@ db.once("open", () => {
 // Routes
 // app.use("/", appRoutes);
 
-// app.get("/posts", async (req, res, next) => {
-//   try {
-//     const posts = await Post.find();
-//     res.json(posts);
-//   } catch (error) {
-//     console.error("Error retrieving posts:", error);
-//     next(error);
-//   }
-// });
-
 // Example route to get all posts
 app.get("/posts", (req, res) => {
   Post.find()
     .then((Post) => res.json(Post))
     .catch((err) => res.json(err));
 });
+
+// Route to get all user profiles
+app.get("/users", async (req, res) => {
+  // same as below i guess.
+  // User.find()
+  //   .then((User) => res.json(User))
+  //   .catch((err) => res.json(err));
+  try{
+    const users = await User.find()
+    res.json(users);
+  }catch (err){
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Get Specific username info 
+app.get('/users/:username', async (req, res) => {
+  try {
+    const profile = await User.findOne({username: req.params.username});
+    if (!profile) return res.status(400).json({msg: "No profile for this user."});
+    res.json(profile);
+  } catch (error) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+})
 
 // Serve the Home.js file
 app.get("/home", function (req, res) {
@@ -99,30 +120,12 @@ app.get("/login", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Login.js");
   res.sendFile(filePath);
 });
+// Route to get logins
 
 // Serve the Register.js file
 app.get("/register", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Register.js");
   res.sendFile(filePath);
-});
-
-// Get user profile by ID
-app.get("/users/:username", verifyToken, async (req, res, next) => {
-  try {
-    const username = req.params.username; // Use req.params.username instead of req.username
-
-    if (!username) {
-      console.error("User not found");
-      return res.status(404).json({ message: "User not found" });
-    } else {
-      console.log("User profile retrieved successfully:", username);
-    }
-
-    res.json(username);
-  } catch (error) {
-    console.error("Error retrieving user profile:", error);
-    next(error);
-  }
 });
 
 // app.get("/posts/:userId", async (req, res, next) => {
@@ -170,9 +173,11 @@ app.post("/login", async (req, res, next) => {
     if (!user || !pass) {
       return res.status(400).send("Username or password is incorrect");
     } else {
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign({ 
+        _id: user._id }, 
+        process.env.JWT_SECRET, 
+        {expiresIn: "1hr", },  // change to 3600 (1hr) after testing.
+        );
       res.json({ token });
     }
   } catch (error) {
@@ -219,8 +224,44 @@ app.post("/home", verifyToken, async (req, res, next) => {
   }
 });
 
+// @route    POST api/profile
+// @desc     Create or update user profile
+// @access   Private
+app.post('/', auth, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
+    const {
+      company,
+      website,
+      location,
+      bio,
+      status,
+      githubusername,
+      skills,
+      youtube,
+      facebook,
+      twitter,
+      instagram,
+      linkedin
+    } = req.body;
 
+    try {
+      // Using upsert option (creates new doc if no match is found):
+      let profile = await User.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true, upsert: true }
+      );
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 // Error handler
 app.use(function (err, req, res, next) {
