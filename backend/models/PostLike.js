@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const sukoSchema = new mongoose.Schema({
+const LikeSchema = new mongoose.Schema({
   postId: {
     type: mongoose.Types.ObjectId,
     ref: "Post",
@@ -11,4 +11,4 @@ const sukoSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("PostSuko", sukoSchema);
+module.exports = mongoose.model("PostLike", LikeSchema);

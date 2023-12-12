@@ -5,7 +5,7 @@ import Comments from "./Comments";
 import CreateComment from "./CreateComment";
 import { Navbar } from "./Navbar";
 import ReactMarkdown from "react-markdown";
-import Suko from "./Suko";
+import Like from "./Like";
 import ContentEditor from "./ContentEditor";
 import { API_URL } from "../config";
 import Loading from "./Loading";
@@ -17,7 +17,7 @@ const PostDetails = () => {
   const [commentCount, setCommentCount] = useState(0);
   const [editing, setEditing] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const { title, content, author, sukoCount, sukod } = post;
+  const { title, content, author, LikeCount, Liked } = post;
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const moment = require("moment");
@@ -81,10 +81,10 @@ const PostDetails = () => {
                   <div className="container">
                     <div className="d-flex flex-direction-start">
                       <div>
-                        <Suko
+                        <Like
                           postId={post._id}
-                          sukoCount={sukoCount}
-                          sukod={sukod}
+                          LikeCount={LikeCount}
+                          Liked={Liked}
                         />
                       </div>
 

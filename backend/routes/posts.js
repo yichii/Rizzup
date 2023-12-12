@@ -21,9 +21,9 @@ router.get(
 
 router.post("/", auth.verifyToken, postController.createPost);
 
-router.post("/suko/:id", auth.verifyToken, postController.sukoPost);
+router.post("/Like/:id", auth.verifyToken, postController.LikePost);
 
-router.post("/unsuko/:id", auth.verifyToken, postController.unsukoPost);
+router.post("/unLike/:id", auth.verifyToken, postController.unLikePost);
 
 router.delete("/:id", auth.verifyToken, postController.deletePost);
 

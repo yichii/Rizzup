@@ -7,8 +7,8 @@ const NotificationCard = (props) => {
 
   const getNotificationContent = () => {
     switch (notification.notificationType) {
-      case "postSuko":
-        return <span>sukod your post</span>;
+      case "postLike":
+        return <span>Liked your post</span>;
       case "postComment":
         return <span>commented on your post</span>;
       case "commentReply":
@@ -20,7 +20,7 @@ const NotificationCard = (props) => {
 
   const getNotificationIcon = () => {
     switch (notification.notificationType) {
-      case "postSuko":
+      case "postLike":
         return (
           <span>
             <img
