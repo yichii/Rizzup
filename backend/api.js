@@ -73,8 +73,8 @@ db.once("open", () => {
 });
 
 // patch path works...
-app.patch("/users/:username/biography", verifyToken, userController.updateBiography);
-
+// app.patch("/users/:username/biography", verifyToken, userController.updateBiography);
+app.patch("/users/:username/biography", userController.updateBiography);
 
 // Routes
 // app.use("/", appRoutes);
@@ -133,7 +133,20 @@ app.get('/users/:username', async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
-})
+});
+
+// Get Post via UserID => Author ID
+app.get("/posts/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const posts = await Post.find({ author: userId });
+
+    res.json(posts);
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    next(error);
+  }
+});
 
 // Serve the Home.js file
 app.get("/home", function (req, res) {
