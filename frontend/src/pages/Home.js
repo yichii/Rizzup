@@ -7,6 +7,7 @@ const HomePage = () => {
   // const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState("");
   const [post, setPost] = useState("");
+  const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
 
   const handlePostSubmit = async (e) => {
@@ -116,6 +117,14 @@ const HomePage = () => {
           <h1>Post</h1>
           <form onSubmit={handlePostSubmit}>
             <div className="form-group">
+              <input
+                type="text"
+                placeholder="Title"
+                id="title"
+                style={{ width: "100%" }}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
               <input
                 type="text"
                 placeholder="Post"
