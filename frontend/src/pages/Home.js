@@ -17,7 +17,10 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3001/home",
-        { content: post, type: "post" },
+        { 
+          title: title,
+          content: post, 
+          type: "post" },
         {
           headers: {
             "Content-Type": "application/json",
