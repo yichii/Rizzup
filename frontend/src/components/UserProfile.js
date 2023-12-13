@@ -27,7 +27,7 @@ const UserProfile = () => {
     if (user) {
       headers = { token: user.token };
     }
-    const res = await fetch(API_URL + "posts/users/" + username, {
+    const res = await fetch("http://localhost:3000/posts/users/" + username, {
       headers,
     });
     const data = await res.json();
@@ -38,7 +38,7 @@ const UserProfile = () => {
   };
 
   const fetchComments = async () => {
-    const res = await fetch(API_URL + "comments/users/" + username);
+    const res = await fetch("http://localhost:3000/comments/users/" + username);
     const data = await res.json();
     setComments(data.comments);
   };

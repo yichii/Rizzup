@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 
+
+
 export const Navbar = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = localStorage.getItem("user");
+
   const navigate = useNavigate();
-  const [notificationCount, setNotificationCount] = useState(0);
+  //const [notificationCount, setNotificationCount] = useState(0);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -37,21 +40,23 @@ export const Navbar = () => {
               <div class="input-group-prepend my-auto">
                 <i className="input-group-tex fa-solid fa-magnifying-glass pr-5 text-muted"></i>
               </div>
-              <input type="text" className="form-control border-0 text-muted" placeholder="Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
+              <input type="text" className="form-control border-0 text-muted" placeholder= "Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
             </div>
           </form>
           <MobileNav
             user={user}
             handleLogout={handleLogout}
-            notificationCount={notificationCount}
+            //notificationCount={notificationCount}
           />
           <DesktopNav
             user={user}
             handleLogout={handleLogout}
-            notificationCount={notificationCount}
+            //notificationCount={notificationCount}
           />
         </div>
       </nav>
     </div>
   );
 };
+
+export default Navbar;
