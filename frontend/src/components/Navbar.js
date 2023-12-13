@@ -50,7 +50,7 @@ export const Navbar = () => {
               <div class="input-group-prepend my-auto">
                 <i className="input-group-tex fa-solid fa-magnifying-glass pr-5 text-muted"></i>
               </div>
-              <input type="text" className="form-control border-0 text-muted" placeholder= "Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input>
+              {/* <input type="text" className="form-control border-0 text-muted" placeholder= "Search by keywords..." aria-label="Username" aria-describedby="basic-addon1"></input> */}
             </div>
           </form>
           <MobileNav
