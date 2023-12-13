@@ -345,3 +345,20 @@ a:hover {
 .fa-magnifying-glass {
   color: gray !important;
 } */
+
+.aboutStatement{
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 610px;
+  text-align: center;
+}
+
+.aboutText {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.aboutHeader {
+  margin-bottom: 2rem;
+}

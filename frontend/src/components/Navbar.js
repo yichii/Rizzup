@@ -35,6 +35,16 @@ export const Navbar = () => {
                 ></img>
             </Link>
           </a>
+          
+          <button id="settings-button"></button>
+            <Link to ="/settings">
+              Settings
+            </Link>
+
+            <button id="about-button"></button>
+            <Link to ="/about">
+              About
+            </Link>
           <form class="form-inline col-md-5">
             <div class="input-group mx-auto">
               <div class="input-group-prepend my-auto">
