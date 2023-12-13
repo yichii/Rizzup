@@ -34,6 +34,9 @@ a:hover {
 
 .card {
   background-color: var(--bs-secondary);
+  margin: 0.8rem 0;
+  padding: 1rem 1.25rem;
+  box-shadow: 2px 1px 5px grey;
 }
 
 .Updates {
@@ -176,7 +179,8 @@ a:hover {
 
 .post-card a {
   color: var(--bs-muted-white);
-  border-bottom: 1px solid var(--bs-muted-white);
+  border-bottom: 1px solid black;
+  margin: 0 5px;
 }
 
 .post-card a:hover {
@@ -205,6 +209,13 @@ a:hover {
 
 .post-details .content {
   max-width: 1100px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .back-to-posts a {
