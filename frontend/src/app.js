@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
-import LoginComponent from "./components/LoginComponent";
 import 'bootstrap/dist/css/bootstrap.css';
 import { UserProvider } from "./UserState";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
-          <Route component={LoginComponent} />
+          <Route path="/users/:username" element={<UserProfilePage/>} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

@@ -6,8 +6,9 @@ const path = require("path");
 const dotenv = require("dotenv");
 const User = require("./models/Users");
 const Post = require("./models/Post");
-const Comment = require("./models/Comment");
 const jwt = require("jsonwebtoken");
+const userController = require("./controllers/userController");
+
 
 // const appRoutes = require("./app");
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
 
 const verifyToken = (req, res, next) => {
   const authorizationHeader = req.header("Authorization");
@@ -46,10 +48,12 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+
 // Apply this middleware to protected routes
 // app.use("/home", verifyToken);
 // Add more routes that require authentication as needed.
 
+// CORS configuration
 const corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -68,8 +72,34 @@ db.once("open", () => {
   console.log("Connected to MongoDB!");
 });
 
+// patch path works...
+// app.patch("/users/:username/biography", verifyToken, userController.updateBiography);
+app.patch("/users/:username/biography", userController.updateBiography);
+
 // Routes
 // app.use("/", appRoutes);
+
+// Example route to get all posts
+app.get("/posts", (req, res) => {
+  Post.find()
+    .then((Post) => res.json(Post))
+    .catch((err) => res.json(err));
+});
+
+// Route to get all user profiles
+app.get("/users", async (req, res) => {
+  // same as below i guess.
+  // User.find()
+  //   .then((User) => res.json(User))
+  //   .catch((err) => res.json(err));
+  try{
+    const users = await User.find()
+    res.json(users);
+  }catch (err){
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // app.get("/posts", async (req, res, next) => {
 //   try {
@@ -93,9 +123,24 @@ db.once("open", () => {
 //   }
 // });
 
-app.get("/posts", async (req, res, next) => {
+// Get Specific username info 
+app.get('/users/:username', async (req, res) => {
   try {
-    const posts = await Post.find().populate("author", "username");
+    const profile = await User.findOne({username: req.params.username});
+    if (!profile) return res.status(400).json({msg: "No profile for this user."});
+    res.json(profile);
+  } catch (error) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Get Post via UserID => Author ID
+app.get("/posts/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const posts = await Post.find({ author: userId });
+
     res.json(posts);
   } catch (error) {
     console.error("Error retrieving posts:", error);
@@ -103,16 +148,20 @@ app.get("/posts", async (req, res, next) => {
   }
 });
 
+// Serve the Home.js file
 app.get("/home", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/pages/Home.js");
   res.sendFile(filePath);
 });
 
+// Serve the Login.js file
 app.get("/login", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Login.js");
   res.sendFile(filePath);
 });
+// Route to get logins
 
+// Serve the Register.js file
 app.get("/register", function (req, res) {
   const filePath = path.join(__dirname, "../frontend/src/Register.js");
   res.sendFile(filePath);
@@ -131,19 +180,8 @@ app.get("/register", function (req, res) {
 //   }
 // });
 
-// app.post("/posts/:postId/comments", verifyToken, async (req, res, next) => {
-//   try {
-//     const postId = req.params.postId;
-//     const commentText = req.body.comment;
-//     const userId = req.user._id;
 
-//     res.status(201).json({ message: "Comment created successfully" });
-//   } catch (error) {
-//     console.error("Error creating a comment:", error);
-//     res.status(500).json({ message: "Error creating a comment" });
-//   }
-// });
-
+// Register new user
 app.post("/register", async (req, res, next) => {
   try {
     const newUser = new User({
@@ -166,6 +204,7 @@ app.post("/register", async (req, res, next) => {
   }
 });
 
+// Login user and generate JWT token
 app.post("/login", async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
@@ -173,9 +212,11 @@ app.post("/login", async (req, res, next) => {
     if (!user || !pass) {
       return res.status(400).send("Username or password is incorrect");
     } else {
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign({ 
+        _id: user._id }, 
+        process.env.JWT_SECRET, 
+        {expiresIn: "1hr", },  // change to 3600 (1hr) after testing.
+        );
       res.json({ token });
     }
   } catch (error) {
@@ -183,6 +224,7 @@ app.post("/login", async (req, res, next) => {
   }
 });
 
+// Create a new post (requires authentication)
 app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
