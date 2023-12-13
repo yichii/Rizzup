@@ -137,7 +137,7 @@ const HomePage = () => {
             {posts.map((post) => (
               <div className="card" key={post._id}>
                 <div className="author">
-                  <p>Profile Picture</p>
+                  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngarts.com%2Ffiles%2F10%2FDefault-Profile-Picture-Transparent-Image.png&f=1&nofb=1&ipt=a265539905258eef26164b5d120ae239b87677a376cbca222304816e38036891&ipo=images" width="50" height="50" alt=""></img>
                   <div>
                     <p>{post.author.username}</p>
                     <p>Time posted since</p>
@@ -146,7 +146,7 @@ const HomePage = () => {
                 
                 <h3>{post.title}</h3>
                 <p>{post.content}</p>
-                <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
+                {/* <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
                   <div className="form-group">
                     <input
                       type="text"
@@ -163,7 +163,7 @@ const HomePage = () => {
                     />
                   </div>
                   <button type="submit">Add Comment</button>
-                </form>
+                </form> */}
               </div>
             ))}
           </div>
