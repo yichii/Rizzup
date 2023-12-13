@@ -12,7 +12,7 @@ const UserProfile = () => {
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [totalPosts, setTotalPosts] = useState(0);
-  const [totalSukos, setTotalSukos] = useState(0);
+  const [totalLikes, setTotalLikes] = useState(0);
   const user = JSON.parse(localStorage.getItem("user"));
   const [tab, setTab] = useState("posts");
   const [profileUser, setProfileUser] = useState();
@@ -34,7 +34,7 @@ const UserProfile = () => {
     setPosts(data.posts);
     setProfileUser(data.user);
     setTotalPosts(data.totalPosts);
-    setTotalSukos(data.totalSukos);
+    setTotalLikes(data.totalLikes);
   };
 
   const fetchComments = async () => {
@@ -67,9 +67,9 @@ const UserProfile = () => {
                 style={{ color: "var(--bs-ternary)" }}
               >
                 <span className="mx-1">Posts: {totalPosts}</span>{" "}
-                {/* <span className="mx-1">Rizz Rating: {totalSukos}</span> */}
+                {/* <span className="mx-1">Rizz Rating: {totalLikes}</span> */}
                 {/* Demo RizzRating */}
-                <span className="mx-1">Rizz Rating: {totalSukos}</span>
+                <span className="mx-1">Rizz Rating: {totalLikes}</span>
               </div>
             </div>
             <div className="col-sm-8" style={{ maxWidth: "700px" }}>

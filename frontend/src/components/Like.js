@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config";
 
-const Suko = (props) => {
+const Like = (props) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const [sukoCount, setSukoCount] = useState(props.sukoCount);
-  const [sukod, setSukod] = useState(props.sukod);
+  const [LikeCount, setLikeCount] = useState(props.LikeCount);
+  const [Liked, setLiked] = useState(props.Liked);
   const navigate = useNavigate();
 
-  const sukoPost = async () => {
+  const LikePost = async () => {
     if (user) {
-      if (!props.sukod) {
-        setSukoCount(props.sukoCount + 1);
+      if (!props.Liked) {
+        setLikeCount(props.LikeCount + 1);
       } else {
-        setSukoCount(props.sukoCount);
+        setLikeCount(props.LikeCount);
       }
-      setSukod(true);
+      setLiked(true);
 
-      await fetch(API_URL + "posts/suko/" + props.postId, {
+      await fetch(API_URL + "posts/Like/" + props.postId, {
         method: "POST",
         headers: { "Content-Type": "application/json", token: user.token },
       });
@@ -26,15 +26,15 @@ const Suko = (props) => {
     }
   };
 
-  const unSukoPost = async () => {
-    if (!props.sukod) {
-      setSukoCount(props.sukoCount);
+  const unLikePost = async () => {
+    if (!props.Liked) {
+      setLikeCount(props.LikeCount);
     } else {
-      setSukoCount(props.sukoCount - 1);
+      setLikeCount(props.LikeCount - 1);
     }
-    setSukod(false);
+    setLiked(false);
 
-    await fetch(API_URL + "posts/unsuko/" + props.postId, {
+    await fetch(API_URL + "posts/unLike/" + props.postId, {
       method: "POST",
       headers: { "Content-Type": "application/json", token: user.token },
     });
@@ -42,28 +42,28 @@ const Suko = (props) => {
 
   return (
     <div>
-      {sukod ? (
+      {Liked ? (
         <div className="d-flex flex-column align-items-center">
           <input
-            className={"un-suko-small"}
+            className={"un-Like-small"}
             type="button"
             value=""
-            onClick={unSukoPost}
+            onClick={unLikePost}
           />
           <h4 className="my-2" style={{ color: "var(--bs-ternary)" }}>
-            {sukoCount}
+            {LikeCount}
           </h4>
         </div>
       ) : (
         <div className="d-flex flex-column align-items-center">
           <input
-            className={"suko-small"}
+            className={"Like-small"}
             type="button"
             value=""
-            onClick={sukoPost}
+            onClick={LikePost}
           />
           <h4 className="my-2" style={{ color: "var(--bs-ternary)" }}>
-            {sukoCount}
+            {LikeCount}
           </h4>
         </div>
       )}
@@ -71,4 +71,4 @@ const Suko = (props) => {
   );
 };
 
-export default Suko;
+export default Like;
