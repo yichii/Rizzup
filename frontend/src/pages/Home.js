@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from "../components/Navbar";
-import Topics from "../components/Topics";
 import axios from "axios";
+import "./home.css";
 
 const HomePage = () => {
   // const [comments, setComments] = useState({});
@@ -143,7 +143,6 @@ const HomePage = () => {
                     <p>Time posted since</p>
                   </div>
                 </div>
-                
                 <h3>{post.title}</h3>
                 <p>{post.content}</p>
                 {/* <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
@@ -169,9 +168,7 @@ const HomePage = () => {
           </div>
 
           <div className="row">
-            <div className="col-sm-7">
-            </div>
-            
+            <div className="col-sm-7"></div>
           </div>
         </div>
       </div>
