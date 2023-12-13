@@ -27,7 +27,7 @@ function Register() {
       setUsername("");
       setPassword("");
       setErrorMessage("");
-      navigate("/home");
+      navigate("/login");
     } else {
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.includes("application/json")) {
@@ -49,15 +49,26 @@ function Register() {
             <div class="form-box align-items-center h-custom-2 mb-5 pt-xl-0 mt-xl-n5">
               <div>
                 <a class="navbar-brand" href="#top">
-                  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn4.iconfinder.com%2Fdata%2Ficons%2Fwhsr-january-flaticon-set%2F512%2Frocket.png&f=1&nofb=1&ipt=57047b82dd003e3d4952c651f202fc9311882220c5ff5997ae6df133536d075f&ipo=images" width="50" height="50" alt=""></img>
+                  <img
+                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn4.iconfinder.com%2Fdata%2Ficons%2Fwhsr-january-flaticon-set%2F512%2Frocket.png&f=1&nofb=1&ipt=57047b82dd003e3d4952c651f202fc9311882220c5ff5997ae6df133536d075f&ipo=images"
+                    width="50"
+                    height="50"
+                    alt=""
+                  ></img>
                 </a>
                 <span class="h1 fw-bold mb-0 text-black">Rizz Up</span>
               </div>
               <form onSubmit={handleOnSubmit}>
-                <h1 className="mt-3 mb-4 text-black fs-3 fw-bold" style={{ color: "#F28123" }}>
+                <h1
+                  className="mt-3 mb-4 text-black fs-3 fw-bold"
+                  style={{ color: "#F28123" }}
+                >
                   Join the Rizz Up community
                 </h1>
-                <h5 className="mb-4 fw-normal text-black" style={{ color: "#5e5e5e" }}>
+                <h5
+                  className="mb-4 fw-normal text-black"
+                  style={{ color: "#5e5e5e" }}
+                >
                   {"  "}
                   Learn and share how to Rizz someone up from the community.{" "}
                 </h5>
@@ -109,7 +120,10 @@ function Register() {
                   Register
                 </button>
                 <p className="mt-2 mb-5" style={{ color: "#5e5e5e" }}>
-                  Have an account already? <a className="a-link" href="/login">Login</a>
+                  Have an account already?{" "}
+                  <a className="a-link" href="/login">
+                    Login
+                  </a>
                 </p>
               </form>
             </div>
@@ -126,6 +140,6 @@ function Register() {
       </section>
     </div>
   );
-};
+}
 
 export default Register;
