@@ -50,7 +50,7 @@ const verifyToken = (req, res, next) => {
 
 
 // Apply this middleware to protected routes
-// app.use("/home", verifyToken);
+app.use("/home", verifyToken);
 // Add more routes that require authentication as needed.
 
 // CORS configuration
