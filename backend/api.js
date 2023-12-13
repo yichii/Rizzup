@@ -50,7 +50,7 @@ const verifyToken = (req, res, next) => {
 
 
 // Apply this middleware to protected routes
-app.use("/home", verifyToken);
+// app.use("/home", verifyToken);
 // Add more routes that require authentication as needed.
 
 // CORS configuration
@@ -80,10 +80,14 @@ app.patch("/users/:username/biography", userController.updateBiography);
 // app.use("/", appRoutes);
 
 // Example route to get all posts
-app.get("/posts", (req, res) => {
-  Post.find()
-    .then((Post) => res.json(Post))
-    .catch((err) => res.json(err));
+app.get("/posts", async (req, res, next) => {
+  try {
+    const posts = await Post.find().populate("author", "username");
+    res.json(posts);
+  } catch (error) {
+    console.error("Error retrieving posts:", error);
+    next(error);
+  }
 });
 
 // Route to get all user profiles
@@ -228,13 +232,11 @@ app.post("/login", async (req, res, next) => {
 app.post("/home", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const title = req.body.title;
     const content = req.body.content;
 
     if (req.body.type === "post") {
       console.log("Received POST request with content:", content);
       const newPost = new Post({
-        title,
         content,
         author: userId,
       });

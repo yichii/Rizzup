@@ -211,7 +211,7 @@ a:hover {
   max-width: 1100px;
 }
 
-.author {
+.authorstyle {
   display: flex;
   align-items: center;
   flex-direction: row;
