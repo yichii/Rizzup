@@ -7,6 +7,7 @@ const HomePage = () => {
   // const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState("");
   const [post, setPost] = useState("");
+  const [title, setTitle] = useState("");
   const [posts, setPosts] = useState([]);
 
   const handlePostSubmit = async (e) => {
@@ -16,7 +17,10 @@ const HomePage = () => {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         "http://localhost:3001/home",
-        { content: post, type: "post" },
+        { 
+          title: title,
+          content: post, 
+          type: "post" },
         {
           headers: {
             "Content-Type": "application/json",
@@ -27,6 +31,7 @@ const HomePage = () => {
 
       if (response.status === 201) {
         setPost("");
+        setTitle("");
       }
     } catch (error) {
       console.error("Error creating a post:", error);
@@ -106,16 +111,17 @@ const HomePage = () => {
     <div>
       <Navbar />
       <div className="container">
-        <h2
-          className="my-4"
-          style={{ color: "var(--bs-ternary)", fontSize: "30px" }}
-        >
-          Feed
-        </h2>
         <div className="form-container">
-          <h1>Post</h1>
           <form onSubmit={handlePostSubmit}>
             <div className="form-group">
+              <input
+                type="text"
+                placeholder="Title"
+                id="title"
+                style={{ width: "100%" }}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
               <input
                 type="text"
                 placeholder="Post"
@@ -129,11 +135,17 @@ const HomePage = () => {
           </form>
           <div>
             {posts.map((post) => (
-              <div key={post._id} className="post-container">
+              <div className="card" key={post._id}>
+                <div className="author">
+                  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngarts.com%2Ffiles%2F10%2FDefault-Profile-Picture-Transparent-Image.png&f=1&nofb=1&ipt=a265539905258eef26164b5d120ae239b87677a376cbca222304816e38036891&ipo=images" width="50" height="50" alt=""></img>
+                  <div>
+                    <p>{post.author.username}</p>
+                    <p>Time posted since</p>
+                  </div>
+                </div>
                 <h3>{post.title}</h3>
-                <p>Content: {post.content}</p>
-                <p>Author: {post.author.username}</p>
-                <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
+                <p>{post.content}</p>
+                {/* <form onSubmit={(e) => handleCommentSubmit(e, post._id)}>
                   <div className="form-group">
                     <input
                       type="text"
@@ -150,7 +162,7 @@ const HomePage = () => {
                     />
                   </div>
                   <button type="submit">Add Comment</button>
-                </form>
+                </form> */}
               </div>
             ))}
           </div>
