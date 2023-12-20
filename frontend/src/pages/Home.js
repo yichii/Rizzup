@@ -135,12 +135,11 @@ const HomePage = () => {
           </form>
           <div>
             {posts.map((post) => (
-              <div className="card" key={post._id}>
-                <div className="author">
+              <div key={post._id} className="card">
+                <div className="authorstyle">
                   <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngarts.com%2Ffiles%2F10%2FDefault-Profile-Picture-Transparent-Image.png&f=1&nofb=1&ipt=a265539905258eef26164b5d120ae239b87677a376cbca222304816e38036891&ipo=images" width="50" height="50" alt=""></img>
                   <div>
-                    <p>{post.author.username}</p>
-                    <p>Time posted since</p>
+                    <p>Author: {post.author.username}</p>
                   </div>
                 </div>
                 <h3>{post.title}</h3>
